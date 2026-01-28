@@ -1,0 +1,188 @@
+/* ========================================
+   3D 애니메이션 추가 스타일
+   Spline Integration
+   ======================================== */
+
+/* Hero 3D Wrapper */
+.hero-3d-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Stats 3D Background */
+.stats-3d-bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 400px;
+  opacity: 0.2;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.stats-section {
+  position: relative;
+}
+
+.stats-section .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* 3D Toggle Button */
+.toggle-3d-btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--gradient-blue);
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(51, 153, 255, 0.3);
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.toggle-3d-btn:hover {
+  transform: scale(1.1) rotate(10deg);
+  box-shadow: 0 15px 40px rgba(51, 153, 255, 0.5);
+}
+
+.toggle-3d-btn:active {
+  transform: scale(0.95);
+}
+
+/* CTA Section with 3D Background */
+.cta-section {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Floating 3D 배경 레이어 */
+.cta-section > div:first-child {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.cta-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* 3D 로딩 최적화 */
+@supports (backdrop-filter: blur(10px)) {
+  .hero-3d-wrapper,
+  .stats-3d-bg {
+    backdrop-filter: blur(5px);
+  }
+}
+
+/* 저사양 디바이스 최적화 */
+@media (max-width: 768px) {
+  .hero-3d-wrapper {
+    display: none;
+  }
+
+  .stats-3d-bg {
+    width: 250px;
+    height: 250px;
+    opacity: 0.1;
+  }
+
+  .toggle-3d-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+    bottom: 1.5rem;
+    right: 1.5rem;
+  }
+}
+
+/* Reduced Motion 지원 */
+@media (prefers-reduced-motion: reduce) {
+  .hero-3d-wrapper,
+  .stats-3d-bg,
+  .floating-spline {
+    animation: none;
+    opacity: 0.1;
+  }
+
+  .toggle-3d-btn {
+    display: none;
+  }
+}
+
+/* 3D 요소들의 부드러운 페이드인 */
+.hero-3d-wrapper,
+.stats-3d-bg {
+  animation: spline3DFadeIn 2s ease forwards;
+}
+
+@keyframes spline3DFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+}
+
+/* GPU 가속 활성화 */
+.hero-3d-wrapper,
+.stats-3d-bg,
+.floating-spline {
+  transform: translateZ(0);
+  will-change: transform, opacity;
+}
+
+/* 고성능 디바이스에서 더 높은 품질 */
+@media (min-width: 1920px) and (min-height: 1080px) {
+  .hero-3d-wrapper {
+    width: 60%;
+  }
+
+  .stats-3d-bg {
+    width: 500px;
+    height: 500px;
+  }
+}
+
+/* 3D 인터랙션 힌트 */
+.spline-interaction-hint {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  padding: 0.75rem 1.5rem;
+  background: rgba(51, 153, 255, 0.1);
+  border: 1px solid rgba(51, 153, 255, 0.3);
+  border-radius: 50px;
+  color: var(--accent-blue);
+  font-size: 0.9rem;
+  pointer-events: none;
+  animation: hintPulse 2s ease-in-out infinite;
+}
+
+@keyframes hintPulse {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,123 @@
+제조 AI 컨설팅 및 구축 사업 플랫폼 기획
+[최종 PRD] GrowAI-MAP (Manufacturing Analysis & Prediction) 개발 기획안1. 프로젝트 개요
+제품명: GrowAI-MAP (제조 AX 투자 수익성 분석 및 매칭 플랫폼) 
+제품 정의: 제조업체의 '고민(Agony)'을 데이터로 진단하고, 최적의 AI/로봇 솔루션을 매칭하며, 도입 후의 경제적 이익(ROI)과 ESG 성과를 시뮬레이션하는 전문가 증강형(Expert Augmentation) B2B 플랫폼입니다. 
+최종 목표: 단순 솔루션 중개를 넘어, 뉴클의 커스텀 SI 기술력을 결합하여 고객의 이익을 극대화하고 제조 AX 생태계를 장악하는 Aggregator가 되는 것. 
+2. 핵심 기능 정의 (Functional Specifications)2.1. 데이터 기반 지능형 진단 엔진 (Phase 1 포함)
+고객용 자가진단: 기술 용어를 배제하고 '5대 고민 모델(품질, 설비, 공정, 안전, 인력)' 기반의 문진을 통해 AX 시급성 등급과 예상 절감액 리포트를 즉시 생성합니다. 
+로그 데이터 분석: 설비 현장의 실질적인 데이터를 분석하기 위해 CSV, JSON 형태의 로그 데이터를 업로드하면 AI가 분석하여 문제 지점을 정밀 판독합니다.
+디지털 실사 가이드 (Digital Audit): 컨설턴트가 현장에서 태블릿으로 설비 사진을 찍고 체크리스트를 작성하면 보고서가 자동 생성됩니다. 
+2.2. ROI & ESG 시뮬레이터 (The Closer)
+경제성 분석: '기성품 도입(Standard)'과 '뉴클 커스텀 도입(Custom)'의 ROI를 비교합니다. 
+변수 확장: 기존 인건비/불량률 외에 탄소 배출 관리 및 에너지 효율 등 ESG 지표를 변수로 포함하여 시뮬레이션합니다.
+견적 산출 옵션: 뉴클 커스텀 개발비를 상황에 따라 '고정 요율(30~40%)' 또는 '투입 인력(Man-Month)' 기반 중 선택하여 산출할 수 있습니다. 
+2.3. 지능형 파트너 매칭 및 전문가 도구
+가중치 기반 매칭: 유사 업종 레퍼런스, 가격 경쟁력, 지리적 위치, 기술 성숙도, 유지보수, 서비스 체계를 종합적으로 고려한 알고리즘을 적용합니다. 
+RAG 기반 기술 챗봇: 150여 개 파트너사의 기술 문서를 학습하여 고객의 돌발 질문에 실시간 대응합니다. 
+레퍼런스 팩토리: 상담 중 유사 업종/규모의 성공 사례 데이터를 즉시 호출하여 Social Proof를 제공합니다. 
+2.4. 내재화된 학습 환경 (Embedded LMS)
+학습 환경 전체 내재화: 플랫폼 내에서 솔루션 도입 전후 교육 영상을 즉시 수강하고 관리할 수 있도록 GrowAI LMS를 임베디드 방식으로 통합합니다. 
+3. 시스템 아키텍처 및 기술 스택3.1. 개발 프레임워크: Google Anti-Gravity
+구글의 AI 기반 코딩 도구인 Anti-Gravity를 활용하여 코드 생성 및 최적화를 수행하며, 생산성을 극대화합니다.
+3.2. 인프라 및 서비스 계층
+Frontend: React 또는 Next.js 기반의 반응형 웹 (PC 관리자용 / Tablet 컨설턴트용 최적화). 
+Backend: Node.js 또는 Python (FastAPI) - Google Cloud Run을 통한 서버리스 배포.
+AI/Data: Google Vertex AI (Gemini Pro 기반 진단 및 매칭), BigQuery (제조 데이터 분석), Cloud Storage (로그 데이터 저장).
+LMS 통합: 기존 LMS와의 보안 토큰 기반 임베디드 연동.
+확장성: 2026년 BOONGTOO(B2E) 결제 및 구독 기능을 위한 아키텍처(Stripe/Toss Payments 등) 선설계. 
+4. 사용자 인터페이스(UI) 초안
+PC 웹 (관리자/SMIBA): 대시보드 중심 UI. 전체 가입 기업 현황, 산업별 제조 트렌드 리포트 분석, 파트너사 DB 관리. 
+Tablet 웹 (현장 컨설턴트): 인터랙티브 시뮬레이션 UI. 현장에서 CEO에게 슬라이더 조절을 통해 실시간으로 ROI 그래프가 변하는 모습을 시연하는 기능 중심. 
+5. 2026년1분기 목표
+플랫폼 런칭, 5대 고민 진단 엔진 및 로그 분석 기능 탑재, ROI 시뮬레이터(ESG 포함) 구축.
+GrowAI-MAP (Manufacturing Analysis & Prediction) 
+서비스 개발을 위한 세부 태스크 목록을 생성했습니다. 
+이 목록은 구글의 AI 기반 개발 도구인 Anti-Gravity를 활용한 고효율 개발 프로세스를 전제로 하며, 
+각 단계는 독립적으로 실행 가능하도록 세분화되었습니다.
+
+[Task List] GrowAI-MAP 플랫폼 개발 태스크1. 인프라 및 개발 환경 설정 (Infrastructure & Setup)
+[ ] 구글 Anti-Gravity 개발 환경 구축 및 프로젝트 초기화
+[ ] GCP(Google Cloud Platform) 프로젝트 설정 및 Vertex AI / BigQuery API 활성화
+[ ] PostgreSQL(사용자 및 기본 데이터) 및 Vector Database(파트너사 기술 스펙) 아키텍처 설계
+[ ] BOONGTOO 확장을 고려한 결제 및 구독 데이터베이스 스키마 설계
+2. 데이터 분석 및 진단 엔진 (Diagnosis & Data Engine)
+[ ] '제조 5대 고민 모델' 기반 자가진단 로직 구현 (Backend API)
+[ ] 설비 로그 데이터(CSV/JSON) 업로드 파서 및 기초 통계 분석 모듈 개발
+[ ] Vertex AI 기반 제조 데이터 정밀 진단 에이전트 개발
+[ ] 진단 결과 기반 '현황 분석 리포트' 자동 생성 엔진(PDF Export 포함) 구축
+3. ROI & ESG 시뮬레이터 (The Closer Module)
+[ ] Standard vs Custom ROI 산출 공식 엔진 개발 (인건비, 불량률 변수)
+[ ] 탄소 배출량 및 에너지 효율 지표 반영 ESG 시뮬레이션 알고리즘 구현
+[ ] 커스텀 SI 견적 산출기 개발 (고정 요율형 / Man-Month형 선택 옵션)
+[ ] 실시간 차트 렌더링을 위한 인터랙티브 데이터 바인딩 (Frontend)
+4. 지능형 파트너 매칭 및 전문가 도구 (Expert Tools)
+[ ] 6대 가중치(레퍼런스, 가격, 위치, 성숙도, 유지보수, 서비스) 기반 매칭 알고리즘 구현
+[ ] 파트너사 기술 문서 RAG(Retrieval-Augmented Generation) 시스템 구축
+[ ] 컨설턴트용 기술 대응 AI 챗봇 인터페이스 개발
+[ ] 레퍼런스 팩토리(성공 사례 DB) 검색 및 호출 기능 개발
+5. 사용자 인터페이스 개발 (UI/UX)
+[ ] [관리자/PC] 전체 대시보드 및 파트너사 DB 관리 시스템 개발
+[ ] [컨설턴트/Tablet] 현장 전용 인터랙티브 자가진단 및 시뮬레이션 웹 UI 개발
+[ ] [공용] GrowAI LMS 내재화(Embedded)를 위한 학습 환경 통합 레이아웃 개발
+6. 통합 및 운영 고도화 (Integration & QA)
+[ ] 플랫폼 내 GrowAI LMS 보안 토큰 기반 SSO(Single Sign-On) 연동
+[ ] 전체 시스템 통합 테스트 및 시뮬레이션 로직 검증
+[ ] 구글 클라우드 기반 CI/CD 파이프라인 구축 및 서버리스(Cloud Run) 배포
+[ ] 운영 관리용 트렌드 인사이트 리포트 대시보드 최종 점검
+
+
+5대 핵심 자동화 스크립트 (scripts*.bat)
+5대 핵심 자동화 스크립트 (scripts*.bat)
+모든 스크립트는 Agentic AI 원리에 따라 실행 결과를 build_log.txt에 기록하며, 오류 발생 시 Gemini CLI가 원인을 분석합니다.
+
+① setup.bat (환경 구축)
+코드 스니펫
+@echo off
+chcp 65001
+echo [INFO] GrowAI-MAP 개발 환경 설정을 시작합니다.
+mkdir ..\backend ..\frontend ..\infrastructure 2>nul
+:: Gemini를 이용한 Spring Boot & React 기본 뼈대 생성
+gemini "Spring Boot 3.2, eGovFrame 4.2 기반의 Gradle 멀티모듈 구조를 생성해줘" > ..\backend\build.gradle
+gemini "Vite, TypeScript, React 18 설정 파일을 생성해줘" > ..\frontend\package.json
+echo [SUCCESS] 폴더 구조 및 기본 설정 파일 생성 완료.
+pause
+② deploy.bat (Docker 배포)
+코드 스니펫
+@echo off
+echo [INFO] 컨테이너 기반 배포를 시작합니다.
+docker-compose -f ..\infrastructure\docker-compose.yml up --build -d
+echo [INFO] Nginx 리버스 프록시 설정 적용 중...
+pause
+③ backup.bat (데이터 보호)
+코드 스니펫
+@echo off
+set BACKUP_NAME=GrowAI_Backup_%date%.zip
+echo [INFO] 프로젝트 백업 진행 중: %BACKUP_NAME%
+tar -cvf %BACKUP_NAME% ..\src ..\database
+echo [SUCCESS] 백업 파일이 생성되었습니다.
+④ health-check.bat (상태 점검)
+코드 스니펫
+@echo off
+echo [CHECK] Backend API Status:
+curl -I http://localhost:8080/api/health
+echo [CHECK] Redis Status:
+docker exec redis-container redis-cli ping
+⑤ cleanup.bat (정리)
+코드 스니펫
+@echo off
+echo [WARN] 개발 임시 파일 및 중지된 컨테이너를 삭제합니다.
+docker system prune -f
+rmdir /s /q ..\backend\build ..\frontend\dist
+
+
+시큐어코딩 및 백엔드 전략 (Java 17 + JWT)
+행안부 가이드를 준수하기 위해 입력값 검증 필터와 **SQL Injection 방지(MyBatis # 사용)**를 기본 적용합니다.
+
+// [배경지식] 행안부 시큐어코딩 가이드에 따른 입력값 검증
+// [연관항목] Spring Security 6.x, JWT Stateless 인증
+// [학습사이트] https://www.egovframe.go.kr/
+@PostMapping("/login")
+public ResponseEntity<?> authenticate(@Valid @RequestBody LoginRequest loginRequest) {
+    // MyBatis를 통한 안전한 쿼리 실행 및 JWT 토큰 발행 로직
+    return ResponseEntity.ok(tokenService.generateToken(loginRequest));
+}

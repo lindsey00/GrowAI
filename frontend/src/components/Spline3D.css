@@ -1,0 +1,172 @@
+/* ========================================
+   Spline 3D 컴포넌트 스타일
+   ======================================== */
+
+.spline-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.spline-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 25, 41, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba(51, 153, 255, 0.1);
+  border-top-color: #3399FF;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spline-loading p {
+  margin-top: 1rem;
+  color: #B0BEC5;
+  font-size: 0.9rem;
+}
+
+/* ========================================
+   섹션별 Spline 스타일
+   ======================================== */
+
+/* Hero Section 3D */
+.hero-spline {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+  animation: fadeInRight 1.5s ease 0.5s forwards;
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 0.8;
+    transform: translateX(0);
+  }
+}
+
+/* Data Visualization 3D */
+.data-spline {
+  width: 400px;
+  height: 400px;
+  margin: 0 auto;
+}
+
+/* Graph 3D */
+.graph-spline {
+  width: 100%;
+  height: 500px;
+}
+
+/* Mechanism 3D */
+.mechanism-spline {
+  width: 200px;
+  height: 200px;
+  margin: 2rem auto;
+}
+
+/* Floating Objects 3D */
+.floating-spline {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 600px;
+  pointer-events: none;
+  opacity: 0.3;
+  z-index: 0;
+}
+
+/* ========================================
+   반응형 디자인
+   ======================================== */
+
+@media (max-width: 1024px) {
+  .hero-spline {
+    width: 60%;
+    opacity: 0.6;
+  }
+
+  .data-spline {
+    width: 300px;
+    height: 300px;
+  }
+
+  .floating-spline {
+    width: 400px;
+    height: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-spline {
+    display: none;
+  }
+
+  .data-spline {
+    width: 250px;
+    height: 250px;
+  }
+
+  .graph-spline {
+    height: 300px;
+  }
+
+  .mechanism-spline {
+    width: 150px;
+    height: 150px;
+  }
+
+  .floating-spline {
+    width: 300px;
+    height: 300px;
+  }
+}
+
+/* ========================================
+   성능 최적화
+   ======================================== */
+
+.spline-container canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* GPU 가속 활성화 */
+.spline-container {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* 저사양 디바이스에서는 3D 비활성화 */
+@media (prefers-reduced-motion: reduce) {
+  .hero-spline,
+  .floating-spline {
+    display: none;
+  }
+}

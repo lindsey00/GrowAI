@@ -1,0 +1,27 @@
+=== 단계 3: WAS (Spring Boot) 빌드 및 시작 ===
+시작 시간: 2026년 01월 28일 수 오후 11:40:59
+
+[단계 3-1] Gradle 재빌드 (H2 데이터베이스 의존성 추가)
+[단계 3-1] Gradle 재빌드 (H2 데이터베이스 의존성 추가)
+
+[성공] Gradle 빌드 완료 (15초 소요)
+- H2 Database 의존성 추가
+- SecurityConfig 추가
+- RedisConfig 추가
+
+[단계 3-2] Spring Boot 서버 시작 (dev 프로파일)
+- 프로파일: dev
+- 데이터베이스: H2 인메모리
+- Redis: 비활성화
+- 포트: 8080
+
+
+[성공] Spring Boot 서버 시작 완료!
+- 시작 시간: 6.084초
+- 프로파일: dev
+- 포트: 8080
+- H2 Console: http://localhost:8080/h2-console
+- 데이터베이스: jdbc:h2:mem:growai_map (인메모리)
+- Tomcat: Apache Tomcat/10.1.18
+
+[단계 3-3] API 헬스체크 수행
