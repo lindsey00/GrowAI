@@ -1,9 +1,0 @@
-=== Node.js 설치 완료 ===
-시간: $(date)
-
-설치된 버전:
-- Node.js: v24.13.0 (LTS)
-- 설치 방법: winget (Windows Package Manager)
-- 설치 경로: C:\Program Files\nodejs
-
-다음 단계: npm install 및 프론트엔드 실행
