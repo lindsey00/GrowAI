@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Search, Filter, Building2, TrendingUp, Award, MapPin, Calendar, ExternalLink } from 'lucide-react';
+import { useLanguage } from '../i18n/LanguageContext';
 
 interface ReferenceCase {
   id: string;
@@ -21,6 +22,7 @@ interface ReferenceCase {
 }
 
 const ReferenceFactory: React.FC = () => {
+  const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedIndustry, setSelectedIndustry] = useState<string>('all');
   const [selectedCase, setSelectedCase] = useState<ReferenceCase | null>(null);
@@ -150,8 +152,8 @@ const ReferenceFactory: React.FC = () => {
           <Award className="w-4 h-4 text-primary" />
           <span className="text-sm font-medium text-primary">Success Stories</span>
         </div>
-        <h2 className="text-4xl font-bold mb-2">Reference Factory</h2>
-        <p className="text-gray-400">Proven results from leading manufacturers</p>
+        <h2 className="text-4xl font-bold mb-2">{t.reference.title}</h2>
+        <p className="text-gray-400">{t.reference.subtitle}</p>
       </div>
 
       {/* Search and Filter */}
@@ -163,7 +165,7 @@ const ReferenceFactory: React.FC = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-            placeholder="Search by company, solution, or tags..."
+            placeholder={t.reference.searchPlaceholder}
             className="w-full pl-10 pr-4 py-3 bg-surface border border-border rounded-lg focus:outline-none focus:border-primary transition"
           />
         </div>
@@ -174,7 +176,7 @@ const ReferenceFactory: React.FC = () => {
         >
           {industries.map(industry => (
             <option key={industry} value={industry}>
-              {industry === 'all' ? 'All Industries' : industry}
+              {industry === 'all' ? t.reference.allIndustries : industry}
             </option>
           ))}
         </select>
@@ -183,13 +185,13 @@ const ReferenceFactory: React.FC = () => {
           className="px-6 py-3 bg-primary text-white rounded-lg font-medium hover:opacity-90 transition flex items-center gap-2"
         >
           <Filter className="w-4 h-4" />
-          Search
+          {t.reference.searchButton}
         </button>
       </div>
 
       {/* Results Count */}
       <p className="text-sm text-gray-400 mb-6">
-        Found {filteredCases.length} success {filteredCases.length === 1 ? 'case' : 'cases'}
+        {t.reference.foundCases.replace('{count}', filteredCases.length.toString())}
       </p>
 
       {/* Cases Grid */}
@@ -224,7 +226,7 @@ const ReferenceFactory: React.FC = () => {
             <div className="flex items-center justify-between text-xs text-gray-500">
               <span className="flex items-center gap-1">
                 <Calendar className="w-3 h-3" />
-                ROI: {caseItem.roi}
+                {t.reference.roi.replace('{months}', caseItem.roi.split(' ')[0])}
               </span>
               <span className="flex items-center gap-1">
                 <MapPin className="w-3 h-3" />

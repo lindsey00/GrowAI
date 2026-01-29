@@ -1,93 +1,142 @@
-
 import React from 'react';
-import { Home, Database, BarChart3, Mail, Twitter, Linkedin, Github } from 'lucide-react';
+import { Twitter, Linkedin, Youtube, Github } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 
 const Footer: React.FC = () => {
+  const currentYear = new Date().getFullYear();
   const { t } = useLanguage();
-  
+
+  const footerLinks = {
+    [t.footer.product]: [
+      { label: t.footer.platform, href: '#platform' },
+      { label: t.footer.technology, href: '#technology' },
+      { label: t.footer.solutions, href: '#solutions' },
+      { label: t.footer.pricing, href: '#pricing' }
+    ],
+    [t.footer.company]: [
+      { label: t.footer.about, href: '#about' },
+      { label: t.footer.careers, href: '#careers' },
+      { label: t.footer.news, href: '#news' },
+      { label: t.footer.contact, href: '#contact' }
+    ],
+    [t.footer.resources]: [
+      { label: t.footer.docs, href: '#docs' },
+      { label: t.footer.support, href: '#support' },
+      { label: t.footer.blog, href: '#blog' },
+      { label: t.footer.community, href: '#community' }
+    ],
+    [t.footer.legal]: [
+      { label: t.footer.privacy, href: '#privacy' },
+      { label: t.footer.terms, href: '#terms' },
+      { label: t.footer.security, href: '#security' },
+      { label: t.footer.compliance, href: '#compliance' }
+    ]
+  };
+
+  const socialLinks = [
+    { icon: Twitter, href: '#', label: 'Twitter' },
+    { icon: Linkedin, href: '#', label: 'LinkedIn' },
+    { icon: Youtube, href: '#', label: 'YouTube' },
+    { icon: Github, href: '#', label: 'GitHub' }
+  ];
+
   return (
-    <footer className="bg-main border-t border-white/5 pt-24 pb-32 md:pb-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-12 mb-20">
-          <div className="col-span-2">
-            <div className="flex items-center gap-2 mb-6">
-              <div className="size-8 bg-primary rounded flex items-center justify-center">
-                <BarChart3 className="size-5 text-main" />
+    <footer className="relative bg-black border-t border-white/10">
+      <div className="max-w-7xl mx-auto px-6 py-20">
+        {/* Top Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 mb-16">
+          {/* Brand */}
+          <div className="lg:col-span-2">
+            {/* Logo - CSS Based */}
+            <a href="/" className="group relative mb-4 inline-block">
+              <div className="flex items-baseline gap-0 transition-all duration-700">
+                {/* GrowA Text */}
+                <span className="text-3xl font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 transition-all duration-700 group-hover:from-cyan-300 group-hover:via-blue-400 group-hover:to-cyan-300">
+                  GrowA
+                </span>
+                
+                {/* i with Star on top */}
+                <div className="relative inline-flex flex-col items-center">
+                  {/* Star Icon - positioned above i */}
+                  <svg className="w-3 h-3 text-cyan-400 absolute -top-3 group-hover:scale-125 transition-transform duration-700" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+                  </svg>
+                  {/* i stem */}
+                  <span className="text-3xl font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 transition-all duration-700 group-hover:from-cyan-300 group-hover:via-blue-400 group-hover:to-cyan-300">
+                    I
+                  </span>
+                </div>
+
+                {/* -MAP Text */}
+                <span className="text-3xl font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 transition-all duration-700 group-hover:from-cyan-300 group-hover:via-blue-400 group-hover:to-cyan-300">
+                  -MAP
+                </span>
               </div>
-              <span className="text-white text-xl font-bold tracking-tight">GrowAI-MAP</span>
-            </div>
-            <p className="text-gray-500 text-sm leading-relaxed max-w-xs mb-8">
+              
+              {/* Glow effect on hover */}
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-cyan-400/0 to-blue-500/0 group-hover:from-blue-500/20 group-hover:via-cyan-400/20 group-hover:to-blue-500/20 blur-xl transition-all duration-700 rounded-lg -z-10"></div>
+            </a>
+            <p className="text-gray-400 text-sm leading-relaxed mb-6">
               {t.footer.description}
             </p>
-            <div className="flex gap-6">
-              <Twitter className="size-5 text-gray-500 hover:text-white cursor-pointer transition-colors" />
-              <Linkedin className="size-5 text-gray-500 hover:text-white cursor-pointer transition-colors" />
-              <Github className="size-5 text-gray-500 hover:text-white cursor-pointer transition-colors" />
+            {/* Social Links */}
+            <div className="flex gap-4">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  aria-label={social.label}
+                  className="w-10 h-10 bg-white/5 border border-white/10 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300"
+                >
+                  <social.icon className="w-5 h-5" />
+                </a>
+              ))}
             </div>
           </div>
 
-          <div>
-            <h4 className="text-white font-bold text-sm uppercase tracking-widest mb-6">{t.footer.product}</h4>
-            <ul className="space-y-4 text-gray-500 text-sm">
-              <li><a href="#" className="hover:text-primary transition-colors">{t.footer.aiPlatform}</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">{t.footer.predictive}</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">{t.footer.quality}</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">{t.footer.supply}</a></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-white font-bold text-sm uppercase tracking-widest mb-6">{t.footer.company}</h4>
-            <ul className="space-y-4 text-gray-500 text-sm">
-              <li><a href="#" className="hover:text-primary transition-colors">{t.footer.caseStudies}</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">{t.footer.about}</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">{t.footer.careers}</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">{t.footer.news}</a></li>
-            </ul>
-          </div>
-
-          <div className="hidden lg:block">
-            <h4 className="text-white font-bold text-sm uppercase tracking-widest mb-6">{t.footer.resources}</h4>
-            <ul className="space-y-4 text-gray-500 text-sm">
-              <li><a href="#" className="hover:text-primary transition-colors">{t.footer.documentation}</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">{t.footer.caseStudies}</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">{t.footer.blog}</a></li>
-            </ul>
-          </div>
+          {/* Links */}
+          {Object.entries(footerLinks).map(([category, links]) => (
+            <div key={category}>
+              <h3 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">
+                {category}
+              </h3>
+              <ul className="space-y-3">
+                {links.map((link) => (
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      className="text-gray-400 hover:text-white text-sm transition-colors duration-300"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
-        <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-gray-600 text-xs font-mono uppercase tracking-[0.2em]">© 2024 GROWAI-MAP SOLUTIONS INC. {t.footer.rights}</p>
-          <div className="flex gap-8 text-gray-600 text-xs font-bold uppercase tracking-widest">
-            <a href="#" className="hover:text-white">{t.footer.privacy}</a>
-            <a href="#" className="hover:text-white">{t.footer.terms}</a>
-            <a href="#" className="hover:text-white">{t.footer.security}</a>
+        {/* Bottom Section */}
+        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-gray-500 text-sm">
+            © {currentYear} {t.footer.brand}. {t.footer.rights}
+          </p>
+          <div className="flex gap-6 text-sm">
+            <a href="#privacy" className="text-gray-500 hover:text-white transition-colors">
+              {t.footer.privacyPolicy}
+            </a>
+            <a href="#terms" className="text-gray-500 hover:text-white transition-colors">
+              {t.footer.termsOfService}
+            </a>
+            <a href="#cookies" className="text-gray-500 hover:text-white transition-colors">
+              {t.footer.cookieSettings}
+            </a>
           </div>
-        </div>
-      </div>
-
-      {/* Mobile Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 z-[100] md:hidden">
-        <div className="flex items-center justify-around bg-main/80 backdrop-blur-xl border-t border-white/5 px-6 pb-8 pt-3">
-          <button className="flex flex-col items-center gap-1 text-primary">
-            <Home className="size-6" />
-            <span className="text-[10px] font-bold uppercase tracking-tighter">Home</span>
-          </button>
-          <button className="flex flex-col items-center gap-1 text-gray-500">
-            <Database className="size-6" />
-            <span className="text-[10px] font-bold uppercase tracking-tighter">Systems</span>
-          </button>
-          <button className="flex flex-col items-center gap-1 text-gray-500">
-            <BarChart3 className="size-6" />
-            <span className="text-[10px] font-bold uppercase tracking-tighter">Reports</span>
-          </button>
-          <button className="flex flex-col items-center gap-1 text-gray-500">
-            <Mail className="size-6" />
-            <span className="text-[10px] font-bold uppercase tracking-tighter">Help</span>
-          </button>
         </div>
       </div>
+
+      {/* Gradient Overlay */}
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
     </footer>
   );
 };

@@ -3,21 +3,12 @@ import { LanguageProvider } from './i18n/LanguageContext';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import TrustBar from './components/TrustBar';
-import ImplementationSteps from './components/ImplementationSteps';
-import MetricsGrid from './components/MetricsGrid';
-import DiagnosisDashboard from './components/DiagnosisDashboard';
+import TechnologySection from './components/TechnologySection';
+import PlatformSection from './components/PlatformSection';
 import ExpertMatcher from './components/ExpertMatcher';
-import ROISimulator from './components/ROISimulator';
-import Testimonial from './components/Testimonial';
-import CTASection from './components/CTASection';
-import Footer from './components/Footer';
-import MockDataDashboard from './components/MockDataDashboard';
-import TimeSeriesChart from './components/TimeSeriesChart';
 import TechnicalChatbot from './components/TechnicalChatbot';
 import ReferenceFactory from './components/ReferenceFactory';
-import LMSContainer from './components/LMSContainer';
-import ChatBot from './components/ChatBot';
+import Footer from './components/Footer';
 
 // 권한별 페이지
 import LoginPage from './pages/LoginPage';
@@ -32,77 +23,36 @@ const AppContent: React.FC = () => {
   if (!isAuthenticated) {
     return (
       <LanguageProvider>
-        <div className="min-h-screen selection:bg-primary/30">
+        <div className="min-h-screen bg-black selection:bg-blue-500/30">
           <Navbar />
           
-          <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <main>
+            {/* Hero Section */}
             <Hero />
-            <TrustBar />
             
-            <div className="py-24 space-y-32">
-              {/* Platform - Diagnosis & Real-time Monitoring */}
-              <div id="platform" className="space-y-16 scroll-mt-20">
-                <MockDataDashboard />
-                <TimeSeriesChart />
-                <DiagnosisDashboard />
+            {/* Technology Section */}
+            <TechnologySection />
+            
+            {/* Platform Section with 3D */}
+            <PlatformSection>
+              <div className="max-w-5xl mx-auto">
+                <ExpertMatcher />
               </div>
-              
-              {/* Solutions - ROI Simulation */}
-              <div id="solutions" className="scroll-mt-20">
-                <ROISimulator />
-              </div>
+            </PlatformSection>
 
-              {/* Expert Matching - Intelligent Matching & Expert Tools */}
-              <div id="expert-matcher" className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start scroll-mt-20">
-                <div className="lg:col-span-2">
-                  <ExpertMatcher />
-                </div>
-                <div className="lg:col-span-1">
-                  <TechnicalChatbot />
-                </div>
-              </div>
-
-              {/* Testimonials - Social Proof & Training */}
-              <div id="testimonials" className="space-y-24 scroll-mt-20">
+            {/* Success Stories Section */}
+            <section id="solutions" className="relative py-32 bg-black">
+              <div className="max-w-7xl mx-auto px-6">
                 <ReferenceFactory />
-                <Testimonial />
               </div>
+            </section>
 
-              {/* LMS - Learning Management System */}
-              <div id="lms" className="scroll-mt-20">
-                <LMSContainer />
-              </div>
-              
-              <MetricsGrid />
-              <ImplementationSteps />
-              
-              {/* Contact - CTA Section */}
-              <div id="contact" className="scroll-mt-20">
-                <CTASection />
-              </div>
-            </div>
+            {/* Footer */}
+            <Footer />
           </main>
 
-          <Footer />
-          
-          {/* 플로팅 챗봇 */}
-          <ChatBot />
-
-          {/* 로그인 유도 배너 */}
-          <div className="fixed bottom-6 left-6 bg-gradient-to-r from-primary to-secondary text-white p-4 rounded-xl shadow-2xl max-w-sm z-40">
-            <p className="font-bold mb-2">더 많은 기능을 이용하세요!</p>
-            <p className="text-sm mb-3 opacity-90">로그인하여 권한별 전용 기능을 사용하세요</p>
-            <a 
-              href="/login" 
-              onClick={(e) => {
-                e.preventDefault();
-                window.location.href = '#login';
-              }}
-              className="block w-full bg-white text-primary py-2 rounded-lg text-center font-medium hover:opacity-90 transition"
-            >
-              로그인하기
-            </a>
-          </div>
+          {/* Floating Technical Chatbot */}
+          <TechnicalChatbot />
         </div>
       </LanguageProvider>
     );
@@ -111,7 +61,7 @@ const AppContent: React.FC = () => {
   // 로그인한 경우 - 권한별 페이지
   return (
     <LanguageProvider>
-      <div className="min-h-screen selection:bg-primary/30">
+      <div className="min-h-screen bg-black">
         {/* 권한별 라우팅 */}
         {user?.role === 'admin' && <AdminDashboard />}
         {user?.role === 'consultant' && <ConsultantTablet />}
@@ -122,7 +72,7 @@ const AppContent: React.FC = () => {
           onClick={logout}
           className="fixed top-4 right-4 px-4 py-2 bg-red-500/20 text-red-400 rounded-lg text-sm font-medium hover:bg-red-500/30 transition z-50"
         >
-          로그아웃
+          Logout
         </button>
       </div>
     </LanguageProvider>

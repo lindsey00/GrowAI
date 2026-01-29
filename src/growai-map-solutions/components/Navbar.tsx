@@ -1,212 +1,161 @@
-﻿import React, { useState } from 'react';
-import { Menu, Zap, ChevronDown, User, LogOut, Settings } from 'lucide-react';
+﻿import React, { useState, useEffect } from 'react';
+import { Menu, X, Sparkles } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
-import { LanguageCode } from '../i18n/translations';
-import LoginModal from './LoginModal';
+import LanguageSelector from './LanguageSelector';
 
 const Navbar: React.FC = () => {
-  const { language, setLanguage, t } = useLanguage();
-  const [isLangOpen, setIsLangOpen] = useState(false);
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { t } = useLanguage();
 
-  const languages = [
-    { name: '한국어', code: 'ko' as LanguageCode, flag: '🇰🇷' },
-    { name: 'English', code: 'en' as LanguageCode, flag: '🇺🇸' },
-    { name: '日本語', code: 'ja' as LanguageCode, flag: '🇯🇵' },
-    { name: '中文 (简体)', code: 'zh-CN' as LanguageCode, flag: '🇨🇳' },
-    { name: '中文 (繁體)', code: 'zh-TW' as LanguageCode, flag: '🇹🇼' },
-    { name: 'Русский', code: 'ru' as LanguageCode, flag: '🇷🇺' },
-    { name: 'Español', code: 'es' as LanguageCode, flag: '🇪🇸' },
-    { name: 'Français', code: 'fr' as LanguageCode, flag: '🇫🇷' },
-    { name: 'Deutsch', code: 'de' as LanguageCode, flag: '🇩🇪' },
-    { name: 'Português', code: 'pt' as LanguageCode, flag: '🇵🇹' },
-    { name: 'العربية', code: 'ar' as LanguageCode, flag: '🇸🇦' },
-  ];
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
 
-  const currentLangData = languages.find(l => l.code === language) || languages[0];
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-  const navLinks = [
+  const navItems = [
     { label: t.nav.platform, href: '#platform' },
     { label: t.nav.solutions, href: '#solutions' },
-    { label: t.nav.matching, href: '#expert-matcher' },
-    { label: t.nav.references, href: '#testimonials' },
-    { label: t.nav.lms, href: '#lms' },
-    { label: t.nav.contact, href: '#contact' },
   ];
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    setIsUserMenuOpen(false);
-  };
-
   return (
-    <>
-      <nav className="sticky top-0 z-[100] w-full border-b border-white/5 bg-main/80 backdrop-blur-xl animate-fade-in">
-        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-          {/* 로고 */}
-          <div className="flex items-center gap-2 group cursor-pointer">
-            <div className="size-8 bg-gradient-to-br from-primary to-secondary rounded flex items-center justify-center shadow-lg shadow-primary/20 group-hover:scale-105 transition-transform">
-              <Zap className="size-5 text-main fill-main" />
-            </div>
-            <span className="text-white font-bold tracking-tight text-xl">
-              Grow<span className="text-primary">AI</span>-MAP
-            </span>
-          </div>
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        isScrolled
+          ? 'bg-black/80 backdrop-blur-xl border-b border-white/10 shadow-2xl'
+          : 'bg-transparent'
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-6 py-6">
+        {/* Desktop Layout */}
+        <div className="hidden md:flex items-center justify-between w-full">
+            {/* Logo */}
+            <a href="/" className="group relative">
+              <div className="flex items-baseline gap-0 transition-all duration-700">
+                {/* GrowA Text */}
+                <span className="text-3xl font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 transition-all duration-700 group-hover:from-cyan-300 group-hover:via-blue-400 group-hover:to-cyan-300">
+                  GrowA
+                </span>
+                
+                {/* i with Star on top */}
+                <div className="relative inline-flex flex-col items-center">
+                  {/* Star Icon - positioned above i */}
+                  <svg className="w-3 h-3 text-cyan-400 absolute -top-3 group-hover:scale-125 transition-transform duration-700" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+                  </svg>
+                  {/* i stem */}
+                  <span className="text-3xl font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 transition-all duration-700 group-hover:from-cyan-300 group-hover:via-blue-400 group-hover:to-cyan-300">
+                    I
+                  </span>
+                </div>
 
-          {/* 데스크톱 네비게이션 */}
-          <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link, index) => (
+                {/* -MAP Text */}
+                <span className="text-3xl font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 transition-all duration-700 group-hover:from-cyan-300 group-hover:via-blue-400 group-hover:to-cyan-300">
+                  -MAP
+                </span>
+              </div>
+              
+              {/* Glow effect on hover */}
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-cyan-400/0 to-blue-500/0 group-hover:from-blue-500/20 group-hover:via-cyan-400/20 group-hover:to-blue-500/20 blur-xl transition-all duration-700 rounded-lg -z-10"></div>
+            </a>
+
+          {/* Center Section - Navigation Menu */}
+          <div className="flex items-center gap-6">
+            {navItems.map((item, index) => (
               <a
                 key={index}
-                href={link.href}
-                className="text-sm font-medium text-gray-400 hover:text-white transition-colors"
+                href={item.href}
+                className="group relative px-4 py-2 transition-all duration-500"
               >
-                {link.label}
+                <span className="text-base font-bold tracking-wider uppercase text-cyan-400/80 group-hover:text-cyan-400 transition-colors duration-500">
+                  {item.label}
+                </span>
+                {/* Underline effect */}
+                <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-cyan-400 group-hover:w-full transition-all duration-500"></div>
+                {/* Glow effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-cyan-400/0 to-blue-500/0 group-hover:from-blue-500/10 group-hover:via-cyan-400/10 group-hover:to-blue-500/10 blur-lg transition-all duration-500 -z-10"></div>
               </a>
             ))}
           </div>
 
-          {/* 우측 액션 */}
-          <div className="flex items-center gap-4">
-            {/* 언어 선택 */}
-            <div className="relative">
-              <button
-                onClick={() => setIsLangOpen(!isLangOpen)}
-                className="flex items-center gap-1.5 text-gray-400 hover:text-white text-sm font-medium transition-colors px-2 py-1 rounded-md hover:bg-white/5"
-              >
-                <span className="text-base">{currentLangData.flag}</span>
-                <span className="hidden sm:inline">{currentLangData.name}</span>
-                <ChevronDown className={`size-3 transition-transform ${isLangOpen ? 'rotate-180' : ''}`} />
-              </button>
-
-              {isLangOpen && (
-                <div className="absolute right-0 mt-2 w-48 max-h-80 overflow-y-auto py-2 bg-[#1A1A1A] border border-white/10 rounded-lg shadow-2xl backdrop-blur-xl animate-scale-in no-scrollbar">
-                  {languages.map((lang) => (
-                    <button
-                      key={lang.code}
-                      onClick={() => {
-                        setLanguage(lang.code);
-                        setIsLangOpen(false);
-                      }}
-                      className={`w-full text-left px-4 py-2.5 text-sm transition-colors flex items-center gap-2 ${
-                        language === lang.code ? 'text-primary bg-primary/10' : 'text-gray-400 hover:text-white hover:bg-white/5'
-                      }`}
-                    >
-                      <span className="text-lg">{lang.flag}</span>
-                      <span>{lang.name}</span>
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* 로그인/사용자 메뉴 */}
-            {isLoggedIn ? (
-              <div className="relative">
-                <button
-                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                  className="flex items-center gap-2 px-3 py-2 rounded-full bg-primary/10 border border-primary/30 hover:bg-primary/20 transition"
-                >
-                  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-                    <User className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="hidden sm:inline text-sm font-medium text-white">홍길동</span>
-                  <ChevronDown className={`size-3 text-white transition-transform ${isUserMenuOpen ? 'rotate-180' : ''}`} />
-                </button>
-
-                {isUserMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-48 py-2 bg-[#1A1A1A] border border-white/10 rounded-lg shadow-2xl backdrop-blur-xl animate-scale-in">
-                    <a
-                      href="#profile"
-                      className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-400 hover:text-white hover:bg-white/5 transition"
-                    >
-                      <User className="w-4 h-4" />
-                      <span>프로필</span>
-                    </a>
-                    <a
-                      href="#settings"
-                      className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-400 hover:text-white hover:bg-white/5 transition"
-                    >
-                      <Settings className="w-4 h-4" />
-                      <span>설정</span>
-                    </a>
-                    <div className="border-t border-border my-2"></div>
-                    <button
-                      onClick={handleLogout}
-                      className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 transition"
-                    >
-                      <LogOut className="w-4 h-4" />
-                      <span>로그아웃</span>
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <>
-                <button
-                  onClick={() => setIsLoginModalOpen(true)}
-                  className="hidden sm:block text-gray-400 hover:text-white text-sm font-semibold transition-colors"
-                >
-                  {t.nav.login}
-                </button>
-                <button
-                  onClick={() => setIsLoginModalOpen(true)}
-                  className="bg-primary text-main font-bold px-4 py-2 rounded-full text-xs uppercase tracking-wider hover:brightness-110 transition-all active:scale-95 shadow-lg shadow-primary/20 magnetic-hover"
-                >
-                  {t.nav.getStarted}
-                </button>
-              </>
-            )}
-
-            {/* 모바일 메뉴 버튼 */}
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 text-gray-400 hover:text-white md:hidden"
+          {/* Right Section - Language & CTA */}
+          <div className="flex items-center gap-2">
+            <LanguageSelector />
+            <a
+              href="#contact"
+              className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-cyan-500 text-white text-sm font-black tracking-wider uppercase rounded-full transition-all duration-500 hover:scale-105 hover:shadow-[0_0_20px_rgba(6,182,212,0.6)]"
             >
-              <Menu className="size-6" />
-            </button>
+              {t.nav.getStarted}
+            </a>
           </div>
         </div>
 
-        {/* 모바일 메뉴 */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-border bg-main/95 backdrop-blur-xl animate-fade-in">
-            <div className="px-4 py-4 space-y-3">
-              {navLinks.map((link, index) => (
-                <a
-                  key={index}
-                  href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="block text-sm font-medium text-gray-400 hover:text-white transition-colors py-2"
-                >
-                  {link.label}
-                </a>
-              ))}
-              {!isLoggedIn && (
-                <button
-                  onClick={() => {
-                    setIsLoginModalOpen(true);
-                    setIsMobileMenuOpen(false);
-                  }}
-                  className="w-full text-left text-sm font-medium text-primary hover:text-primary/80 transition-colors py-2"
-                >
-                  {t.nav.login}
-                </button>
-              )}
+        {/* Mobile Layout */}
+        <div className="md:hidden flex items-center justify-between">
+          {/* Mobile Logo */}
+          <a href="/" className="group relative">
+            <div className="flex items-baseline gap-0 transition-all duration-700">
+              {/* GrowA Text */}
+              <span className="text-2xl font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500">
+                GrowA
+              </span>
+              
+              {/* i with Star on top */}
+              <div className="relative inline-flex flex-col items-center">
+                {/* Star Icon */}
+                <svg className="w-2 h-2 text-cyan-400 absolute -top-2" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+                </svg>
+                {/* i stem */}
+                <span className="text-2xl font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500">
+                  I
+                </span>
+              </div>
+
+              {/* -MAP Text */}
+              <span className="text-2xl font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500">
+                -MAP
+              </span>
             </div>
+          </a>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="p-2 text-cyan-400 hover:text-cyan-300 transition-colors"
+          >
+            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden mt-6 pb-6 space-y-3">
+            {navItems.map((item, index) => (
+              <a
+                key={index}
+                href={item.href}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block px-4 py-3 text-base font-bold tracking-wider uppercase text-cyan-400/70 hover:text-cyan-400 transition-all duration-500"
+              >
+                {item.label}
+              </a>
+            ))}
+            <a
+              href="#contact"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="block px-5 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 text-white text-sm font-black tracking-wider uppercase rounded-full text-center transition-all duration-500"
+            >
+              {t.nav.getStarted}
+            </a>
           </div>
         )}
-      </nav>
-
-      {/* 로그인 모달 */}
-      <LoginModal
-        isOpen={isLoginModalOpen}
-        onClose={() => setIsLoginModalOpen(false)}
-      />
-    </>
+      </div>
+    </nav>
   );
 };
 
