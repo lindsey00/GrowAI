@@ -1,6 +1,30 @@
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs
+hs_err_pid*
+replay_pid*
+
 # Google Drive API credentials
 service-account-key.json
-*.json
 
 # Python
 __pycache__/
@@ -15,10 +39,28 @@ node_modules/
 dist/
 build/
 
+# Backend
+backend/build/
+backend/.gradle/
+backend/out/
+
+# Frontend
+frontend/.vite/
+frontend/npm-debug.log*
+
 # IDEs
 .vscode/
 .idea/
+*.iml
 
 # OS
 .DS_Store
 Thumbs.db
+
+# Environment
+.env
+.env.local
+*-key.json
+
+# GCP
+gcp-config.env
