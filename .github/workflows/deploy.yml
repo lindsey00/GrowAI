@@ -28,12 +28,14 @@ jobs:
         uses: google-github-actions/setup-gcloud@v2
 
       - name: Configure Docker
-        run: gcloud auth configure-docker ${{ secrets.GCP_REGION }}-docker.pkg.dev
+        run: |
+          gcloud auth configure-docker ${{ secrets.GCP_REGION }}-docker.pkg.dev --quiet
 
       - name: Build Backend
         run: |
-          docker build -f Dockerfile.backend \
-            -t ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/growai/${{ env.BACKEND_SERVICE }}:${{ github.sha }} .
+          docker build -f backend/Dockerfile \
+            -t ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/growai/${{ env.BACKEND_SERVICE }}:${{ github.sha }} \
+            ./backend
 
       - name: Push Backend
         run: |
@@ -50,8 +52,7 @@ jobs:
             --memory 2Gi \
             --cpu 2 \
             --min-instances 0 \
-            --max-instances 10 \
-            --set-env-vars "SPRING_PROFILES_ACTIVE=prod"
+            --max-instances 10
           
           BACKEND_URL=$(gcloud run services describe ${{ env.BACKEND_SERVICE }} --region ${{ secrets.GCP_REGION }} --format 'value(status.url)')
           echo "url=$BACKEND_URL" >> $GITHUB_OUTPUT
@@ -73,13 +74,15 @@ jobs:
         uses: google-github-actions/setup-gcloud@v2
 
       - name: Configure Docker
-        run: gcloud auth configure-docker ${{ secrets.GCP_REGION }}-docker.pkg.dev
+        run: |
+          gcloud auth configure-docker ${{ secrets.GCP_REGION }}-docker.pkg.dev --quiet
 
       - name: Build Frontend
         run: |
-          docker build -f Dockerfile.frontend \
+          docker build -f frontend/Dockerfile \
             --build-arg VITE_API_URL=${{ needs.deploy-backend.outputs.backend_url }} \
-            -t ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/growai/${{ env.FRONTEND_SERVICE }}:${{ github.sha }} .
+            -t ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/growai/${{ env.FRONTEND_SERVICE }}:${{ github.sha }} \
+            ./frontend
 
       - name: Push Frontend
         run: |
