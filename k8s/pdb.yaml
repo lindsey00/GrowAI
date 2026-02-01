@@ -1,0 +1,23 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: growai-backend-pdb
+  labels:
+    app: growai-backend
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: growai-backend
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: growai-frontend-pdb
+  labels:
+    app: growai-frontend
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: growai-frontend

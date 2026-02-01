@@ -1,0 +1,98 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+  labels:
+    app: growai-backend
+data:
+  application.yaml: |
+    server:
+      port: 8081
+      shutdown: graceful
+      tomcat:
+        threads:
+          max: 200
+          min-spare: 10
+        connection-timeout: 20s
+        max-connections: 8192
+
+    spring:
+      application:
+        name: growai-map-backend
+
+      lifecycle:
+        timeout-per-shutdown-phase: 30s
+
+      datasource:
+        hikari:
+          maximum-pool-size: 20
+          minimum-idle: 5
+          connection-timeout: 30000
+          idle-timeout: 600000
+          max-lifetime: 1800000
+          leak-detection-threshold: 60000
+
+      jpa:
+        open-in-view: false
+        show-sql: false
+        properties:
+          hibernate:
+            format_sql: false
+            use_sql_comments: false
+            jdbc:
+              batch_size: 50
+            order_inserts: true
+            order_updates: true
+
+      data:
+        redis:
+          timeout: 3000ms
+          lettuce:
+            pool:
+              max-active: 8
+              max-idle: 8
+              min-idle: 2
+              max-wait: -1ms
+
+    management:
+      endpoints:
+        web:
+          exposure:
+            include: health,info,metrics,prometheus
+          base-path: /actuator
+      endpoint:
+        health:
+          probes:
+            enabled: true
+          show-details: when-authorized
+      metrics:
+        export:
+          prometheus:
+            enabled: true
+      health:
+        livenessState:
+          enabled: true
+        readinessState:
+          enabled: true
+
+    logging:
+      level:
+        root: INFO
+        com.newcle.growaimap: INFO
+      pattern:
+        console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+        file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+  labels:
+    app: growai-frontend
+data:
+  env.js: |
+    window.ENV = {
+      API_BASE_URL: '/api',
+      ENVIRONMENT: 'production',
+      VERSION: '1.0.0'
+    };

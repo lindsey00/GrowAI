@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: growai-frontend
+  labels:
+    app: growai-frontend
+    tier: frontend
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'
+spec:
+  type: LoadBalancer
+  selector:
+    app: growai-frontend
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+    protocol: TCP
+  sessionAffinity: None

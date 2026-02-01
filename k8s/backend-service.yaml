@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: growai-backend
+  labels:
+    app: growai-backend
+    tier: backend
+  annotations:
+    cloud.google.com/load-balancer-type: "Internal"
+spec:
+  type: LoadBalancer
+  selector:
+    app: growai-backend
+  ports:
+  - name: http
+    port: 8081
+    targetPort: 8081
+    protocol: TCP
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 10800
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: growai-backend-headless
+  labels:
+    app: growai-backend
+    tier: backend
+spec:
+  type: ClusterIP
+  clusterIP: None
+  selector:
+    app: growai-backend
+  ports:
+  - name: http
+    port: 8081
+    targetPort: 8081
+    protocol: TCP
