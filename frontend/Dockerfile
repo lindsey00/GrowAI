@@ -4,10 +4,9 @@ WORKDIR /app
 
 COPY package*.json ./
 RUN npm ci
-RUN chmod -R 755 node_modules/.bin
 
 COPY . .
-RUN ./node_modules/.bin/vite build
+RUN node node_modules/vite/bin/vite.js build
 
 FROM nginx:alpine
 COPY --from=builder /app/dist /usr/share/nginx/html
