@@ -1,66 +1,57 @@
-# Compiled class file
-*.class
-
-# Log file
-*.log
-
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
-
-# virtual machine crash logs
-hs_err_pid*
-replay_pid*
-
-# Google Drive API credentials
-service-account-key.json
-
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-.venv/
-venv/
-env/
-
-# Node
-node_modules/
-dist/
-build/
-
-# Backend
-backend/build/
-backend/.gradle/
-backend/out/
-
-# Frontend
-frontend/.vite/
-frontend/npm-debug.log*
-
-# IDEs
-.vscode/
+# IDE / IntelliJ
 .idea/
 *.iml
+out/
 
 # OS
 .DS_Store
-Thumbs.db
 
-# Environment
-.env
-.env.local
-*-key.json
+# Logs
+logs/
+var/log/
+var/log/**/*.log
 
-# GCP
-gcp-config.env
+# Java build artifacts
+*.class
+*.war
+*.ear
+
+# Gradle
+.gradle/
+**/build/
+**/out/
+
+# Spring Boot (로컬 개발 설정)
+polytech-lms-api/src/main/resources/application-local.yml
+polytech-lms-api/src/main/resources/application-local.properties
+
+# Google 서비스계정(로컬 전용, 커밋 금지)
+polytech-lms-api/src/main/java/kr/polytech/lms/contentsummary/gen-lang-client-*.json
+# Spring/IDE 산출물
+polytech-lms-api/bin/
+
+# Web app build / temp
+WEB-INF/classes/
+WEB-INF/tmp/
+public_html/WEB-INF/classes/
+public_html/WEB-INF/tmp/
+public_html/WEB-INF/work/
+tmp/
+*.tmp
+
+# Editor backups
+*.swp
+*.swo
+*~
+
+# Node / Frontend
+node_modules/
+project/.vite/
+
+# 설정파일
+config.xml
+resin-web.xml
+
+통계 화면.pptx
+tmp_stats_pptx2
+통계

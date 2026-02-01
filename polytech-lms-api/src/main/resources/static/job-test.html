@@ -1,0 +1,3257 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="채용 공고 검색 - 다양한 직무 분야의 채용 정보를 찾아보세요">
+  <meta name="theme-color" content="#2563eb">
+  <title>채용 공고 | PLISM</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================
+       CSS 커스텀 디자인 시스템
+       - UI Skills 가이드라인 준수
+       - Vercel 웹 디자인 가이드라인 적용
+       ============================================ */
+    
+    :root {
+      /* 컬러 팔레트 */
+      --color-primary: #2563eb;
+      --color-primary-dark: #1d4ed8;
+      --color-primary-light: #3b82f6;
+      --color-primary-50: #eff6ff;
+      --color-primary-100: #dbeafe;
+      
+      --color-success: #059669;
+      --color-success-light: #d1fae5;
+      
+      --color-warning: #d97706;
+      --color-warning-light: #fef3c7;
+      
+      --color-danger: #dc2626;
+      --color-danger-light: #fee2e2;
+      
+      --color-gray-50: #f9fafb;
+      --color-gray-100: #f3f4f6;
+      --color-gray-200: #e5e7eb;
+      --color-gray-300: #d1d5db;
+      --color-gray-400: #9ca3af;
+      --color-gray-500: #6b7280;
+      --color-gray-600: #4b5563;
+      --color-gray-700: #374151;
+      --color-gray-800: #1f2937;
+      --color-gray-900: #111827;
+      
+      /* 타이포그래피 */
+      --font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      
+      /* 간격 */
+      --spacing-xs: 0.25rem;
+      --spacing-sm: 0.5rem;
+      --spacing-md: 1rem;
+      --spacing-lg: 1.5rem;
+      --spacing-xl: 2rem;
+      
+      /* 둥글기 */
+      --radius-sm: 0.375rem;
+      --radius-md: 0.5rem;
+      --radius-lg: 0.75rem;
+      --radius-xl: 1rem;
+      
+      /* 그림자 - UI Skills: 기본 shadow scale 사용 */
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      
+      /* 트랜지션 - UI Skills: 200ms 이하 */
+      --transition-fast: 150ms ease-out;
+      --transition-normal: 200ms ease-out;
+      
+      /* z-index 스케일 - UI Skills: 고정 스케일 사용 */
+      --z-dropdown: 100;
+      --z-sticky: 200;
+      --z-modal: 300;
+    }
+    
+    /* 다크 모드 지원 */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-gray-50: #1f2937;
+        --color-gray-100: #374151;
+        --color-gray-200: #4b5563;
+        --color-gray-800: #f3f4f6;
+        --color-gray-900: #f9fafb;
+      }
+    }
+    
+    /* 모션 감소 설정 존중 - UI Skills */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: var(--font-family);
+      background: var(--color-gray-50);
+      color: var(--color-gray-900);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      /* iframe 내부에서 스크롤 방지 - 부모 페이지에서 스크롤 처리 */
+      overflow: hidden;
+    }
+    
+    /* ============================================
+       네비게이션 탭
+       ============================================ */
+    .nav-tabs-custom {
+      border: none;
+      gap: var(--spacing-sm);
+      padding: var(--spacing-md) 0;
+    }
+    
+    .nav-tabs-custom .nav-link {
+      border: none;
+      border-radius: var(--radius-lg);
+      padding: var(--spacing-sm) var(--spacing-lg);
+      color: var(--color-gray-600);
+      font-weight: 500;
+      font-size: 0.9375rem;
+      transition: all var(--transition-fast);
+      position: relative;
+    }
+    
+    .nav-tabs-custom .nav-link:hover {
+      color: var(--color-primary);
+      background: var(--color-primary-50);
+    }
+    
+    .nav-tabs-custom .nav-link.active {
+      color: #fff;
+      background: var(--color-primary);
+      box-shadow: var(--shadow-md);
+    }
+    
+    /* ============================================
+       필터 섹션
+       ============================================ */
+    .filter-section {
+      background: #fff;
+      border-radius: var(--radius-xl);
+      padding: var(--spacing-xl);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--color-gray-200);
+    }
+    
+    .filter-label {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--color-gray-700);
+      margin-bottom: var(--spacing-sm);
+      display: block;
+    }
+    
+    .filter-select {
+      width: 100%;
+      padding: 0.625rem 2.5rem 0.625rem 0.875rem;
+      font-size: 0.875rem;
+      border: 1px solid var(--color-gray-300);
+      border-radius: var(--radius-md);
+      background-color: #fff;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+      background-size: 1rem;
+      appearance: none;
+      cursor: pointer;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    }
+    
+    .filter-select:hover {
+      border-color: var(--color-gray-400);
+    }
+    
+    .filter-select:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px var(--color-primary-100);
+    }
+
+    .filter-input {
+      width: 100%;
+      padding: 0.625rem 0.875rem;
+      font-size: 0.875rem;
+      border: 1px solid var(--color-gray-300);
+      border-radius: var(--radius-md);
+      background-color: #fff;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    }
+
+    .filter-input:hover {
+      border-color: var(--color-gray-400);
+    }
+
+    .filter-input:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px var(--color-primary-100);
+    }
+
+    .filter-hint {
+      margin-top: 0.25rem;
+      font-size: 0.75rem;
+      color: var(--color-gray-500);
+    }
+    
+    .btn-search {
+      background: var(--color-primary);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 0.625rem 1.5rem;
+      font-weight: 600;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: background var(--transition-fast), transform var(--transition-fast);
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+    }
+    
+    .btn-search:hover {
+      background: var(--color-primary-dark);
+    }
+    
+    .btn-search:active {
+      transform: scale(0.98);
+    }
+    
+    .btn-reset {
+      background: var(--color-gray-100);
+      color: var(--color-gray-700);
+      border: 1px solid var(--color-gray-300);
+      border-radius: var(--radius-md);
+      padding: 0.625rem 1rem;
+      font-weight: 500;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: background var(--transition-fast);
+    }
+    
+    .btn-reset:hover {
+      background: var(--color-gray-200);
+    }
+    
+    /* 선택된 필터 태그 */
+    .active-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-sm);
+      margin-top: var(--spacing-md);
+    }
+    
+    .filter-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+      background: var(--color-primary-50);
+      color: var(--color-primary);
+      padding: 0.25rem 0.625rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    
+    .filter-tag-remove {
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      color: var(--color-primary);
+      opacity: 0.7;
+      transition: opacity var(--transition-fast);
+    }
+    
+    .filter-tag-remove:hover {
+      opacity: 1;
+    }
+    
+    /* ============================================
+       결과 헤더
+       ============================================ */
+    .results-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: var(--spacing-xl) 0 var(--spacing-lg);
+    }
+    
+    .results-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--color-gray-900);
+      /* UI Skills: text-balance for headings */
+      text-wrap: balance;
+      margin: 0;
+    }
+    
+    .results-count {
+      color: var(--color-primary);
+      /* UI Skills: tabular-nums for data */
+      font-variant-numeric: tabular-nums;
+    }
+
+    .results-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+    }
+
+    .job-tabs {
+      display: inline-flex;
+      background: #fff;
+      border: 1px solid var(--color-gray-200);
+      border-radius: var(--radius-lg);
+      padding: 0.25rem;
+      gap: 0.25rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .job-tab {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: var(--color-gray-700);
+      font-weight: 600;
+      font-size: 0.875rem;
+      padding: 0.5rem 0.75rem;
+      border-radius: calc(var(--radius-lg) - 0.25rem);
+      cursor: pointer;
+      transition: background var(--transition-fast), color var(--transition-fast);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .job-tab:hover {
+      background: var(--color-gray-50);
+    }
+
+    .job-tab[aria-selected="true"] {
+      background: var(--color-primary);
+      color: #fff;
+    }
+
+    .job-tab-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 1.5rem;
+      height: 1.5rem;
+      padding: 0 0.5rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      /* UI Skills: tabular-nums for badges */
+      font-variant-numeric: tabular-nums;
+      background: var(--color-gray-100);
+      color: var(--color-gray-800);
+    }
+
+    .job-tab[aria-selected="true"] .job-tab-badge {
+      background: rgba(255, 255, 255, 0.18);
+      color: #fff;
+    }
+
+    /* ============================================
+       토스트(간단 메시지)
+       ============================================ */
+    .job-toast {
+      position: fixed;
+      left: 50%;
+      bottom: 1.25rem;
+      transform: translateX(-50%);
+      max-width: min(540px, calc(100vw - 2rem));
+      background: rgba(17, 24, 39, 0.92);
+      color: #fff;
+      padding: 0.75rem 1rem;
+      border-radius: 999px;
+      box-shadow: var(--shadow-lg);
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition-fast);
+      font-size: 0.875rem;
+      line-height: 1.2;
+      text-align: center;
+    }
+
+    .job-toast.show {
+      opacity: 1;
+    }
+    
+    /* ============================================
+       채용 공고 카드
+       ============================================ */
+    .job-card {
+      background: #fff;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-gray-200);
+      padding: var(--spacing-lg);
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+      /* UI Skills: transform, opacity만 애니메이션 */
+      will-change: auto; /* 애니메이션 중에만 적용 */
+    }
+    
+    .job-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .job-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: var(--spacing-md);
+    }
+    
+    .job-company {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+    }
+    
+    .job-company-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      background: var(--color-gray-100);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-gray-500);
+      font-size: 1.125rem;
+    }
+    
+    .job-company-name {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--color-gray-600);
+    }
+    
+    .job-bookmark {
+      background: none;
+      border: none;
+      padding: var(--spacing-sm);
+      cursor: pointer;
+      color: var(--color-gray-400);
+      border-radius: var(--radius-sm);
+      transition: color var(--transition-fast), background var(--transition-fast);
+    }
+    
+    .job-bookmark:hover {
+      color: var(--color-primary);
+      background: var(--color-primary-50);
+    }
+    
+    .job-bookmark.active {
+      color: var(--color-primary);
+    }
+
+    .job-title-link {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .job-title-link:hover,
+    .job-title-link:focus {
+      color: var(--color-primary);
+      text-decoration: underline;
+    }
+
+    .job-card.clickable {
+      cursor: pointer;
+    }
+    
+    .job-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--color-gray-900);
+      margin-bottom: var(--spacing-sm);
+      line-height: 1.4;
+      /* UI Skills: text-balance */
+      text-wrap: balance;
+    }
+    
+    .job-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-md);
+      margin-bottom: var(--spacing-md);
+      font-size: 0.8125rem;
+      color: var(--color-gray-600);
+    }
+    
+    .job-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    
+    .job-meta-item i {
+      color: var(--color-gray-400);
+      font-size: 0.875rem;
+    }
+    
+    .job-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-sm);
+      margin-bottom: var(--spacing-md);
+    }
+    
+    .job-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.625rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    
+    .job-badge-primary {
+      background: var(--color-primary-50);
+      color: var(--color-primary);
+    }
+    
+    .job-badge-success {
+      background: var(--color-success-light);
+      color: var(--color-success);
+    }
+    
+    .job-badge-warning {
+      background: var(--color-warning-light);
+      color: var(--color-warning);
+    }
+
+    /* 왜: 통합(ALL) 화면에서 공고가 섞여 나오기 때문에, 카드마다 제공처(Work24/잡코리아)를 한눈에 구분할 수 있어야 합니다. */
+    .job-badge-provider-work24 {
+      background: var(--color-primary-50);
+      color: var(--color-primary);
+    }
+
+    .job-badge-provider-jobkorea {
+      background: var(--color-warning-light);
+      color: var(--color-warning);
+    }
+
+    .job-badge-provider-neutral {
+      background: var(--color-gray-100);
+      color: var(--color-gray-700);
+    }
+    
+    .job-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: var(--spacing-md);
+      border-top: 1px solid var(--color-gray-100);
+    }
+    
+    .job-salary {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .job-salary-label {
+      font-size: 0.75rem;
+      color: var(--color-gray-500);
+    }
+    
+    .job-salary-value {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--color-success);
+      /* UI Skills: tabular-nums */
+      font-variant-numeric: tabular-nums;
+    }
+    
+    .job-deadline {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+      font-size: 0.8125rem;
+      color: var(--color-gray-500);
+      /* UI Skills: tabular-nums */
+      font-variant-numeric: tabular-nums;
+    }
+    
+    .job-deadline.urgent {
+      color: var(--color-danger);
+      font-weight: 600;
+    }
+    
+    .job-actions {
+      display: flex;
+      gap: var(--spacing-sm);
+      margin-top: var(--spacing-md);
+    }
+    
+    .btn-apply {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--spacing-sm);
+      background: var(--color-primary);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 0.75rem 1rem;
+      font-weight: 600;
+      font-size: 0.875rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background var(--transition-fast), transform var(--transition-fast);
+    }
+    
+    .btn-apply:hover {
+      background: var(--color-primary-dark);
+      color: #fff;
+    }
+    
+    .btn-apply:active {
+      transform: scale(0.98);
+    }
+    
+    .btn-detail {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-gray-100);
+      color: var(--color-gray-700);
+      border: 1px solid var(--color-gray-300);
+      border-radius: var(--radius-md);
+      padding: 0.75rem 1rem;
+      font-weight: 500;
+      font-size: 0.875rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background var(--transition-fast);
+    }
+    
+    .btn-detail:hover {
+      background: var(--color-gray-200);
+      color: var(--color-gray-700);
+    }
+    
+    /* ============================================
+       스켈레톤 로딩 - UI Skills: structural skeletons
+       ============================================ */
+    .skeleton {
+      background: linear-gradient(90deg, var(--color-gray-200) 25%, var(--color-gray-100) 50%, var(--color-gray-200) 75%);
+      background-size: 200% 100%;
+      animation: skeleton-loading 1.5s ease-in-out infinite;
+      border-radius: var(--radius-sm);
+    }
+    
+    @keyframes skeleton-loading {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    
+    .skeleton-card {
+      background: #fff;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-gray-200);
+      padding: var(--spacing-lg);
+    }
+    
+    .skeleton-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: var(--spacing-md);
+    }
+    
+    .skeleton-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+    
+    .skeleton-text {
+      height: 1rem;
+      margin-bottom: var(--spacing-sm);
+    }
+    
+    .skeleton-text-sm {
+      height: 0.75rem;
+      margin-bottom: var(--spacing-xs);
+    }
+    
+    .skeleton-title {
+      height: 1.25rem;
+      width: 70%;
+      margin-bottom: var(--spacing-md);
+    }
+    
+    .skeleton-badge {
+      display: inline-block;
+      width: 4rem;
+      height: 1.5rem;
+      margin-right: var(--spacing-sm);
+    }
+    
+    /* ============================================
+       빈 상태
+       ============================================ */
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      background: #fff;
+      border-radius: var(--radius-xl);
+      border: 1px dashed var(--color-gray-300);
+    }
+    
+    .empty-state-icon {
+      width: 5rem;
+      height: 5rem;
+      margin: 0 auto var(--spacing-lg);
+      background: var(--color-gray-100);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-gray-400);
+      font-size: 2rem;
+    }
+    
+    .empty-state-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--color-gray-700);
+      margin-bottom: var(--spacing-sm);
+    }
+    
+    .empty-state-description {
+      font-size: 0.875rem;
+      color: var(--color-gray-500);
+      margin-bottom: var(--spacing-lg);
+    }
+    
+    /* ============================================
+       에러 상태
+       ============================================ */
+    .error-state {
+      text-align: center;
+      padding: 2rem;
+      background: var(--color-danger-light);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-danger);
+    }
+    
+    .error-state-icon {
+      color: var(--color-danger);
+      font-size: 2rem;
+      margin-bottom: var(--spacing-sm);
+    }
+    
+    .error-state-message {
+      color: var(--color-danger);
+      font-weight: 500;
+    }
+    
+    /* ============================================
+       반응형 그리드
+       ============================================ */
+    .job-grid {
+      display: grid;
+      gap: var(--spacing-lg);
+      grid-template-columns: 1fr;
+    }
+    
+    @media (min-width: 768px) {
+      .job-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (min-width: 1200px) {
+      .job-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    /* ============================================
+       페이지네이션
+       ============================================ */
+    .pagination-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-top: var(--spacing-xl);
+    }
+    
+    .pagination {
+      display: flex;
+      gap: var(--spacing-xs);
+    }
+    
+    .page-btn {
+      min-width: 2.5rem;
+      height: 2.5rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      border: 1px solid var(--color-gray-300);
+      border-radius: var(--radius-md);
+      color: var(--color-gray-700);
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      /* UI Skills: tabular-nums */
+      font-variant-numeric: tabular-nums;
+    }
+    
+    .page-btn:hover:not(:disabled) {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+    
+    .page-btn.active {
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+      color: #fff;
+    }
+    
+    .page-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    /* ============================================
+       컨테이너
+       ============================================ */
+    .page-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 var(--spacing-lg);
+    }
+    
+    .section-header {
+      background: #fff;
+      border-bottom: 1px solid var(--color-gray-200);
+      position: sticky;
+      top: 0;
+      z-index: var(--z-sticky);
+    }
+
+    /* 추천 설정 버튼 */
+    .reco-config-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-gray-300);
+      background: #fff;
+      color: var(--color-gray-500);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .reco-config-btn:hover {
+      color: var(--color-primary);
+      border-color: var(--color-primary-100);
+      background: var(--color-primary-50);
+    }
+
+    /* 추천 프롬프트 모달 */
+    .reco-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: var(--z-modal);
+    }
+    .reco-modal.active { display: flex; }
+    .reco-modal__card {
+      width: 100%;
+      max-width: 520px;
+      background: #fff;
+      border-radius: var(--radius-xl);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      padding: var(--spacing-xl);
+    }
+    .reco-modal__title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--color-gray-900);
+      margin: 0 0 var(--spacing-sm) 0;
+    }
+    .reco-modal__desc {
+      font-size: 0.8125rem;
+      color: var(--color-gray-500);
+      margin: 0 0 var(--spacing-md) 0;
+    }
+    .reco-modal__textarea {
+      width: 100%;
+      min-height: 120px;
+      border: 1px solid var(--color-gray-300);
+      border-radius: var(--radius-md);
+      padding: var(--spacing-sm) var(--spacing-md);
+      font-size: 0.875rem;
+      resize: vertical;
+      box-sizing: border-box;
+      font-family: inherit;
+    }
+    .reco-modal__textarea:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px var(--color-primary-100);
+    }
+    .reco-modal__actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: var(--spacing-md);
+    }
+    .reco-modal__left {
+      display: flex;
+      gap: var(--spacing-sm);
+    }
+    .reco-modal__msg {
+      font-size: 0.75rem;
+      color: var(--color-gray-500);
+      margin-top: var(--spacing-sm);
+    }
+
+    /* 교수 추천 모달 */
+    .recommend-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: var(--z-modal);
+      padding: var(--spacing-lg);
+    }
+    .recommend-modal.active { display: flex; }
+    .recommend-modal__card {
+      width: 100%;
+      max-width: 760px;
+      background: #fff;
+      border-radius: var(--radius-xl);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      padding: var(--spacing-xl);
+      max-height: 80vh;
+      overflow: auto;
+    }
+    .recommend-modal__title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--color-gray-900);
+      margin: 0 0 var(--spacing-sm) 0;
+    }
+    .recommend-modal__desc {
+      font-size: 0.875rem;
+      color: var(--color-gray-500);
+      margin: 0 0 var(--spacing-md) 0;
+    }
+    .recommend-modal__section {
+      margin-bottom: var(--spacing-md);
+    }
+    .recommend-modal__label {
+      font-weight: 600;
+      margin-bottom: var(--spacing-xs);
+      display: block;
+    }
+    .recommend-students {
+      border: 1px solid var(--color-gray-200);
+      border-radius: var(--radius-md);
+      padding: var(--spacing-sm);
+      max-height: 280px;
+      overflow: auto;
+      background: var(--color-gray-50);
+    }
+    .recommend-students__item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 4px;
+      border-bottom: 1px dashed var(--color-gray-200);
+    }
+    .recommend-students__item:last-child { border-bottom: none; }
+    .recommend-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--spacing-sm);
+      margin-top: var(--spacing-md);
+    }
+    .recommend-actions__right {
+      display: flex;
+      gap: var(--spacing-sm);
+    }
+    .reco-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--spacing-sm) var(--spacing-md);
+      border-radius: var(--radius-md);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .reco-btn--primary {
+      background: var(--color-primary);
+      color: #fff;
+      border-color: var(--color-primary);
+    }
+    .reco-btn--primary:hover { background: var(--color-primary-dark); }
+    .reco-btn--ghost {
+      background: #fff;
+      color: var(--color-gray-600);
+      border: 1px solid var(--color-gray-300);
+    }
+    .reco-btn--ghost:hover { background: var(--color-gray-100); }
+    .reco-btn--text {
+      background: transparent;
+      color: var(--color-gray-500);
+    }
+    .reco-btn--text:hover { color: var(--color-primary); }
+  </style>
+</head>
+<body>
+  <!-- 메인 컨텐츠 -->
+  <main class="py-4">
+    <div class="page-container">
+      <!-- 필터 섹션 -->
+      <section class="filter-section" aria-label="채용 공고 필터">
+        <div class="row g-3">
+          <div class="col-12">
+            <label for="nlQueryInput" class="filter-label">자연어 검색(통합 제공처 전용)</label>
+            <input id="nlQueryInput" class="filter-input" type="text" maxlength="200"
+                   placeholder="예) 전기/전자 전공에 도움 되는 채용, 백엔드 개발자, CAD 설계" aria-label="자연어 검색어 입력">
+          </div>
+          <div class="col-md-4 col-lg-3">
+            <label for="jobselectLarge" class="filter-label">직무 분야 (대분류)</label>
+            <select id="jobselectLarge" class="filter-select" aria-label="직무 대분류 선택"></select>
+          </div>
+          <div class="col-md-4 col-lg-3">
+            <label for="jobselectMiddle" class="filter-label">직무 분야 (중분류)</label>
+            <select id="jobselectMiddle" class="filter-select" aria-label="직무 중분류 선택"></select>
+          </div>
+          <div class="col-md-4 col-lg-3">
+            <label for="jobselectSmall" class="filter-label">직무 분야 (소분류)</label>
+            <select id="jobselectSmall" class="filter-select" aria-label="직무 소분류 선택"></select>
+          </div>
+          <div class="col-md-4 col-lg-3">
+            <label for="areaselect" class="filter-label">근무 지역</label>
+            <select id="areaselect" class="filter-select" aria-label="근무 지역 선택"></select>
+          </div>
+          <div class="col-md-4 col-lg-2">
+            <label for="providerselect" class="filter-label">제공처</label>
+            <select id="providerselect" class="filter-select" aria-label="제공처 선택">
+              <option value="WORK24" selected>Work24</option>
+              <option value="JOBKOREA">잡코리아</option>
+              <option value="ALL">통합</option>
+            </select>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <label class="filter-label">&nbsp;</label>
+            <div class="d-flex gap-2">
+              <button id="jobsearchbtn" class="btn-search" type="button" aria-label="검색">
+                <i class="bi bi-search"></i> 검색
+              </button>
+              <button id="jobresetbtn" class="btn-reset" type="button" aria-label="필터 초기화">
+                <i class="bi bi-arrow-counterclockwise"></i> 초기화
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="row g-3 mt-1">
+          <div class="col-md-4 col-lg-2">
+            <label for="salTypeSelect" class="filter-label">급여 유형</label>
+            <select id="salTypeSelect" class="filter-select" aria-label="급여 유형 선택">
+              <option value="">전체</option>
+              <option value="Y">연봉(만원)</option>
+              <option value="M">월급(만원)</option>
+              <option value="D">일급(원)</option>
+              <option value="H">시급(원)</option>
+            </select>
+          </div>
+          <div class="col-md-4 col-lg-2">
+            <label for="minPayInput" class="filter-label">급여 최소</label>
+            <input id="minPayInput" class="filter-input" type="number" min="0" step="1" inputmode="numeric" placeholder="예) 3000">
+          </div>
+          <div class="col-md-4 col-lg-2">
+            <label for="maxPayInput" class="filter-label">급여 최대</label>
+            <input id="maxPayInput" class="filter-input" type="number" min="0" step="1" inputmode="numeric" placeholder="예) 5000">
+          </div>
+          <div class="col-md-4 col-lg-3">
+            <label for="educationSelect" class="filter-label">내 학력</label>
+            <select id="educationSelect" class="filter-select" aria-label="내 학력 선택">
+              <option value="">전체</option>
+              <option value="01">초졸이하</option>
+              <option value="02">중졸</option>
+              <option value="03">고졸</option>
+              <option value="04">대졸(2~3년)</option>
+              <option value="05">대졸(4년)</option>
+              <option value="06">석사</option>
+              <option value="07">박사</option>
+            </select>
+          </div>
+          <div class="col-12">
+            <div class="filter-hint">
+              선택한 학력으로 지원 가능한 공고만 조회합니다. (학력무관 포함)
+            </div>
+            <div id="work24OnlyHint" class="filter-hint" style="display:none;">
+              급여/학력 필터는 통합 제공처에서는 지원되지 않습니다.
+            </div>
+          </div>
+        </div>
+        <div class="row g-3 mt-1">
+          <div class="col-12">
+            <label for="deptselect" class="filter-label">학과(테스트)</label>
+            <select id="deptselect" class="filter-select" aria-label="학과 테스트 선택">
+              <option value="">학과를 선택하세요 (테스트)</option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- 선택된 필터 태그 -->
+        <div id="activeFilters" class="active-filters" aria-live="polite"></div>
+      </section>
+
+      <!-- 결과 헤더 -->
+      <div class="results-header">
+        <h1 class="results-title">
+          채용 공고 <span class="results-count" id="resultCount">(0건)</span>
+        </h1>
+        <div class="results-actions">
+          <div class="job-tabs" role="tablist" aria-label="채용 목록 보기 전환">
+            <button id="jobTabAll" type="button" class="job-tab" role="tab" aria-selected="true" aria-controls="worklist">
+              전체
+            </button>
+            <button id="jobTabBookmark" type="button" class="job-tab" role="tab" aria-selected="false" aria-controls="worklist">
+              북마크 <span id="bookmarkCount" class="job-tab-badge">0</span>
+            </button>
+            <button id="jobTabRecommend" type="button" class="job-tab" role="tab" aria-selected="false" aria-controls="worklist">
+              교수 추천 <span id="recommendCount" class="job-tab-badge">0</span>
+            </button>
+            <button id="jobTabSearchStat" type="button" class="job-tab" role="tab" aria-selected="false" aria-controls="worklist" style="display:none">
+              검색어 통계 <span id="searchStatCount" class="job-tab-badge">0</span>
+            </button>
+            <button id="jobTabSent" type="button" class="job-tab" role="tab" aria-selected="false" aria-controls="worklist" style="display:none">
+              보낸 추천 <span id="sentCount" class="job-tab-badge">0</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 채용 공고 목록 -->
+      <div id="worklist" class="job-grid" role="list" aria-label="채용 공고 목록">
+        <!-- 카드들이 여기에 동적으로 추가됨 -->
+      </div>
+
+      <!-- 간단 토스트 -->
+      <div id="jobToast" class="job-toast" aria-live="polite" aria-atomic="true"></div>
+       
+      <!-- 페이지네이션 -->
+      <div id="paginationWrapper" class="pagination-wrapper" style="display:none;">
+        <div id="pagination" class="pagination" role="navigation" aria-label="페이지 네비게이션"></div>
+      </div>
+    </div>
+
+    <!-- 교수 추천 모달 -->
+    <div class="recommend-modal" id="recommendModal" aria-hidden="true">
+      <div class="recommend-modal__card" role="dialog" aria-modal="true" aria-labelledby="recommendTitle">
+        <h3 class="recommend-modal__title" id="recommendTitle">학생에게 공고 추천하기</h3>
+        <p class="recommend-modal__desc">담당과목과 학생을 선택한 뒤 추천을 보내주세요. (학생 기준 1회 저장)</p>
+
+        <div class="recommend-modal__section">
+          <label class="recommend-modal__label" for="recommendCourseSelect">담당과목</label>
+          <select id="recommendCourseSelect" class="filter-select" aria-label="담당과목 선택">
+            <option value="">과목을 선택하세요</option>
+          </select>
+        </div>
+
+        <div class="recommend-modal__section">
+          <label class="recommend-modal__label">학생 선택</label>
+          <div class="recommend-students" id="recommendStudents">
+            <div class="text-muted" style="padding: 8px;">과목을 먼저 선택해 주세요.</div>
+          </div>
+        </div>
+
+        <div class="recommend-actions">
+          <label class="d-flex align-items-center gap-2">
+            <input type="checkbox" id="recommendSelectAll">
+            전체 선택
+          </label>
+          <div class="recommend-actions__right">
+            <button type="button" class="reco-btn reco-btn--ghost" id="recommendCloseBtn">닫기</button>
+            <button type="button" class="reco-btn reco-btn--primary" id="recommendSendBtn">추천 보내기</button>
+          </div>
+        </div>
+        <p class="reco-modal__msg" id="recommendMsg"></p>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // ==========================================
+    // DOM 요소 참조
+    // ==========================================
+    const jobLargeSelect = document.getElementById("jobselectLarge");
+    const jobMiddleSelect = document.getElementById("jobselectMiddle");
+    const jobSmallSelect = document.getElementById("jobselectSmall");
+    const areaSelect = document.getElementById("areaselect");
+    const providerSelect = document.getElementById("providerselect");
+    const deptSelect = document.getElementById("deptselect");
+    const salTypeSelect = document.getElementById("salTypeSelect");
+    const minPayInput = document.getElementById("minPayInput");
+    const maxPayInput = document.getElementById("maxPayInput");
+    const educationSelect = document.getElementById("educationSelect");
+    const jobSearchBtn = document.getElementById("jobsearchbtn");
+    const jobResetBtn = document.getElementById("jobresetbtn");
+    const nlQueryInput = document.getElementById("nlQueryInput");
+    const workList = document.getElementById("worklist");
+    const resultCount = document.getElementById("resultCount");
+    const activeFiltersEl = document.getElementById("activeFilters");
+    const paginationWrapper = document.getElementById("paginationWrapper");
+    const paginationEl = document.getElementById("pagination");
+    const jobTabAllBtn = document.getElementById("jobTabAll");
+    const jobTabBookmarkBtn = document.getElementById("jobTabBookmark");
+    const jobTabRecommendBtn = document.getElementById("jobTabRecommend");
+    const jobTabSearchStatBtn = document.getElementById("jobTabSearchStat");
+    const jobTabSentBtn = document.getElementById("jobTabSent");
+    const bookmarkCountEl = document.getElementById("bookmarkCount");
+    const recommendCountEl = document.getElementById("recommendCount");
+    const searchStatCountEl = document.getElementById("searchStatCount");
+    const sentCountEl = document.getElementById("sentCount");
+    const jobToastEl = document.getElementById("jobToast");
+
+    const recommendModal = document.getElementById("recommendModal");
+    const recommendCourseSelect = document.getElementById("recommendCourseSelect");
+    const recommendStudentsEl = document.getElementById("recommendStudents");
+    const recommendSelectAll = document.getElementById("recommendSelectAll");
+    const recommendCloseBtn = document.getElementById("recommendCloseBtn");
+    const recommendSendBtn = document.getElementById("recommendSendBtn");
+    const recommendMsgEl = document.getElementById("recommendMsg");
+
+    // URL 파라미터 (왜: 학생의 학과에 맞춰 기본값을 자동으로 맞추기 위해 사용합니다)
+    const queryParams = new URLSearchParams(window.location.search);
+    const defaultDept = (queryParams.get("dept") || "").trim();
+    const defaultDepth1 = (queryParams.get("depth1") || "").trim();
+    const defaultDepth2 = (queryParams.get("depth2") || "").trim();
+    const defaultDepth3 = (queryParams.get("depth3") || "").trim();
+    const defaultProvider = (queryParams.get("provider") || "").trim();
+    // 권한: 교수자/관리자 여부 (URL 파라미터로 전달받음)
+    const isStaffMode = queryParams.get("staff") === "Y";
+    let deptOccupationMap = null;
+
+    // 상태 관리
+    let currentPage = 1;
+    const itemsPerPage = 10;
+    let totalItems = 0;
+    let currentView = "all"; // all | bookmark | recommend
+
+    // 북마크 상태(왜: 카드 렌더링 시 아이콘 활성화를 바로 반영하기 위해)
+    const bookmarkedKeys = new Set();
+    let bookmarkTotal = 0;
+    let bookmarkItems = []; // DB에서 내려온 스냅샷 목록
+
+    // 교수 추천 상태
+    let recommendTotal = 0;
+    let recommendItems = [];
+
+    // 교수 보낸 추천 상태
+    let sentTotal = 0;
+    let sentItems = [];
+
+    // 검색어 통계(교수) 상태
+    let searchStatTotal = 0;
+    let searchStatItems = [];
+    let searchStatCourseCount = 0;
+
+    // 교수 모드 여부/데이터
+    let isTutorMode = false;
+    let canViewSearchStat = false;
+    let tutorCourses = [];
+    let currentRecommendItem = null;
+
+    // 현재 화면에 렌더링한 아이템 캐시(왜: 클릭 시 dataset에 전체 텍스트를 넣지 않고, JS에서 안전하게 꺼내기 위해)
+    const currentItemMap = new Map();
+
+    // ==========================================
+    // 유틸리티 함수
+    // ==========================================
+    async function fetchJson(url, options = {}) {
+      const response = await fetch(url, options);
+      if (!response.ok) {
+        const text = await response.text();
+        // 왜: 스프링 API 에러는 보통 {"message":"..."} 형태로 오므로, 그대로 던지면 화면에 JSON 문자열이 그대로 보입니다.
+        // 사용자에게는 메시지만 보여주는 게 이해하기 쉽습니다.
+        if (text) {
+          try {
+            const parsed = JSON.parse(text);
+            const message = (parsed && typeof parsed === "object") ? (parsed.message || parsed.error || parsed.msg) : null;
+            if (message) throw new Error(String(message));
+          } catch (e) {
+            // JSON 파싱 실패면 원문 텍스트를 그대로 사용합니다.
+          }
+        }
+        throw new Error(text || response.statusText);
+      }
+      return response.json();
+    }
+
+    function showToast(message, isError = false) {
+      if (!jobToastEl) return;
+      jobToastEl.textContent = message || "";
+      jobToastEl.style.background = isError ? "rgba(153, 27, 27, 0.92)" : "rgba(17, 24, 39, 0.92)";
+      jobToastEl.classList.add("show");
+      window.clearTimeout(showToast._t);
+      showToast._t = window.setTimeout(() => jobToastEl.classList.remove("show"), 2200);
+    }
+
+    function resolveSelectedProvider() {
+      return (providerSelect && providerSelect.value) ? providerSelect.value.trim().toUpperCase() : "WORK24";
+    }
+
+    function isSalaryEducationSupported() {
+      const selected = resolveSelectedProvider();
+      return selected === "WORK24" || selected === "JOBKOREA";
+    }
+
+    function setSalaryEducationControlsEnabled(enabled) {
+      // 왜: 급여/학력 필터는 제공처별 파라미터/코드 체계가 달라, 지원하는 제공처만 활성화합니다.
+      const disabled = !enabled;
+      if (salTypeSelect) salTypeSelect.disabled = disabled;
+      if (minPayInput) minPayInput.disabled = disabled;
+      if (maxPayInput) maxPayInput.disabled = disabled;
+      if (educationSelect) educationSelect.disabled = disabled;
+
+      const hint = document.getElementById("work24OnlyHint");
+      if (hint) hint.style.display = enabled ? "none" : "block";
+
+      if (!enabled) {
+        if (salTypeSelect) salTypeSelect.value = "";
+        if (minPayInput) minPayInput.value = "";
+        if (maxPayInput) maxPayInput.value = "";
+        if (educationSelect) educationSelect.value = "";
+      }
+    }
+
+    function validateSalaryInputs() {
+      if (!salTypeSelect || !minPayInput || !maxPayInput) return { ok: true };
+      if (!isSalaryEducationSupported()) return { ok: true };
+
+      const salTp = (salTypeSelect.value || "").trim();
+      const minPayRaw = (minPayInput.value || "").trim();
+      const maxPayRaw = (maxPayInput.value || "").trim();
+
+      if (!salTp && !minPayRaw && !maxPayRaw) return { ok: true };
+
+      if (!salTp) return { ok: false, message: "급여 범위를 쓰려면 급여 유형을 먼저 선택해주세요." };
+      if (!minPayRaw || !maxPayRaw) return { ok: false, message: "급여 최소/최대 금액을 모두 입력해주세요." };
+
+      const minPay = Number(minPayRaw);
+      const maxPay = Number(maxPayRaw);
+      if (!Number.isFinite(minPay) || !Number.isFinite(maxPay) || minPay < 0 || maxPay < 0) {
+        return { ok: false, message: "급여 금액은 0 이상의 숫자만 입력할 수 있습니다." };
+      }
+      if (minPay > maxPay) return { ok: false, message: "급여 최소 금액이 최대 금액보다 클 수 없습니다." };
+
+      return { ok: true, minPay, maxPay, salTp };
+    }
+
+    // 주의: 검색은 “검색” 버튼 클릭 시에만 수행합니다.
+    // (왜: 어떤 필터는 자동 적용되고, 어떤 필터는 버튼을 눌러야 적용되면 사용자가 헷갈립니다.)
+
+    function makeBookmarkKey(provider, wantedAuthNo) {
+      // 왜: Work24 쪽은 infoSvc 값이 `VALIDATION` 등으로 내려오는 케이스가 있어,
+      // provider 원문을 그대로 키로 쓰면 “저장 상태 표시/해제”가 틀어질 수 있습니다.
+      // 화면/DB는 (JOBKOREA) vs (그 외=WORK24) 기준으로 키를 통일합니다.
+      const raw = (provider || "").trim().toUpperCase();
+      const p = (raw === "JOBKOREA") ? "JOBKOREA" : "WORK24";
+      const a = (wantedAuthNo || "").trim();
+      if (!p || !a) return "";
+      return `${p}|${a}`;
+    }
+
+    function resolveProviderFromItem(item) {
+      // 왜: provider=ALL일 때도 아이템별 제공처가 달라서, item.infoSvc를 최우선으로 봅니다.
+      if (item && item.infoSvc) {
+        const v = String(item.infoSvc).trim().toUpperCase();
+        // 왜: Work24 공고에서 infoSvc가 `VALIDATION`처럼 내려오는 케이스가 있어도, 화면에서는 제공처를 Work24로 표시해야 합니다.
+        if (v === "JOBKOREA") return "JOBKOREA";
+        if (v === "WORK24") return "WORK24";
+        return "WORK24";
+      }
+      const selected = (providerSelect && providerSelect.value) ? providerSelect.value.trim().toUpperCase() : "";
+      if (!selected || selected === "ALL") return "WORK24";
+      return selected;
+    }
+
+    function resolveWantedAuthNo(item) {
+      return (item && item.wantedAuthNo) ? String(item.wantedAuthNo).trim() : "";
+    }
+
+    async function fetchMalgnApi(url, options = {}) {
+      // 왜: Malgn JSON 응답은 화면/모듈마다 포맷이 조금씩 달라서, 여기서 한 번에 풀어 씁니다.
+      // - (A) /api/init.jsp 계열: ret_code / ret_msg / ret_json
+      // - (B) util.Json.print 계열: error / message / json
+      const response = await fetch(url, options);
+      const text = await response.text();
+
+      let data = null;
+      try {
+        data = text ? JSON.parse(text) : null;
+      } catch (e) {
+        // 500 HTML 에러페이지가 섞이면 여기로 들어옵니다.
+        throw new Error(text && text.length < 200 ? text : "서버 응답이 JSON이 아닙니다.");
+      }
+
+      if (!data || typeof data !== "object") {
+        throw new Error("서버 응답이 비어 있습니다.");
+      }
+
+      if ("ret_code" in data) {
+        const code = data.ret_code;
+        const ok = (code === 0 || code === "0" || code === "000");
+        if (!ok) {
+          throw new Error(data.ret_msg || data.message || "요청에 실패했습니다.");
+        }
+        const payload = (data.ret_json !== undefined) ? data.ret_json : null;
+        if (payload == null || payload === "") return null;
+        if (typeof payload === "string") {
+          try { return JSON.parse(payload); } catch (e) { return payload; }
+        }
+        return payload;
+      }
+
+      if ("error" in data) {
+        const code = Number(data.error);
+        const ok = (!Number.isNaN(code) && code === 0);
+        if (!ok) {
+          throw new Error(data.message || data.ret_msg || data.msg || "요청에 실패했습니다.");
+        }
+
+        const payload = (data.json !== undefined) ? data.json : ((data.data !== undefined) ? data.data : null);
+        if (payload == null || payload === "") return null;
+        if (typeof payload === "string") {
+          try { return JSON.parse(payload); } catch (e) { return payload; }
+        }
+        return payload;
+      }
+
+      // 일반 JSON(프록시/스프링 등) 응답은 그대로 반환
+      return data;
+    }
+
+    async function loadBookmarks(force = false) {
+      if (!force && (bookmarkItems && bookmarkItems.length > 0)) return;
+
+      // 왜: size 상한이 200이라, 총 개수가 많을 때는 여러 번 가져옵니다(테스트용으로는 최대 5페이지까지만).
+      const size = 200;
+      const maxPages = 5;
+
+      bookmarkItems = [];
+      bookmarkedKeys.clear();
+      bookmarkTotal = 0;
+
+      for (let page = 1; page <= maxPages; page++) {
+        const payload = await fetchMalgnApi(`/api/job_bookmark.jsp?mode=list&page=${page}&size=${size}`);
+        if (!payload) break;
+
+        const total = Number(payload.total || 0);
+        if (!Number.isNaN(total)) bookmarkTotal = total;
+
+        const items = Array.isArray(payload.items) ? payload.items : [];
+        items.forEach((row) => {
+          bookmarkItems.push(row);
+          const key = makeBookmarkKey(row.provider, row.wanted_auth_no);
+          if (key) bookmarkedKeys.add(key);
+        });
+
+        if (bookmarkItems.length >= bookmarkTotal) break;
+        if (items.length < size) break;
+      }
+
+      updateBookmarkCount();
+    }
+
+    function updateBookmarkCount() {
+      if (!bookmarkCountEl) return;
+      const count = Number(bookmarkTotal || bookmarkedKeys.size || 0);
+      bookmarkCountEl.textContent = count.toLocaleString();
+    }
+
+    function updateRecommendCount() {
+      if (!recommendCountEl) return;
+      const count = Number(recommendTotal || recommendItems.length || 0);
+      recommendCountEl.textContent = count.toLocaleString();
+    }
+
+    function updateSentCount() {
+      if (!sentCountEl) return;
+      const count = Number(sentTotal || sentItems.length || 0);
+      sentCountEl.textContent = count.toLocaleString();
+    }
+
+    function updateSearchStatCount() {
+      if (!searchStatCountEl) return;
+      const count = Number(searchStatTotal || searchStatItems.length || 0);
+      searchStatCountEl.textContent = count.toLocaleString();
+    }
+
+    async function loadRecommendations(force = false) {
+      if (!force && (recommendItems && recommendItems.length > 0)) return;
+
+      const size = 200;
+      const maxPages = 5;
+
+      recommendItems = [];
+      recommendTotal = 0;
+
+      for (let page = 1; page <= maxPages; page++) {
+        const payload = await fetchMalgnApi(`/api/job_recommend.jsp?mode=list&page=${page}&size=${size}`);
+        if (!payload) break;
+
+        const total = Number(payload.total || 0);
+        if (!Number.isNaN(total)) recommendTotal = total;
+
+        const items = Array.isArray(payload.items) ? payload.items : [];
+        items.forEach((row) => recommendItems.push(row));
+
+        if (recommendItems.length >= recommendTotal) break;
+        if (items.length < size) break;
+      }
+
+      updateRecommendCount();
+    }
+
+    async function loadSearchStats(force = false) {
+      // 왜: 교수 화면에서 "내 담당 과목 학생들이 어떤 검색어를 검색했는지(익명)"를 한 번에 조회합니다.
+      // - 과목 선택 UI를 없애고, 서버에서 담당 과목(주강사) 전체를 합쳐 집계합니다.
+      if (!force && searchStatItems && searchStatItems.length > 0) {
+        return;
+      }
+
+      const payload = await fetchMalgnApi(`/api/job_search_stat.jsp?mode=stats&days=30&limit=200`);
+      if (!payload) {
+        throw new Error("검색어 통계를 불러오지 못했습니다.");
+      }
+
+      searchStatCourseCount = Number(payload.course_count || 0);
+      searchStatTotal = Number(payload.total || 0);
+      searchStatItems = Array.isArray(payload.items) ? payload.items : [];
+      updateSearchStatCount();
+    }
+
+    async function renderRecommendList() {
+      workList.innerHTML = renderSkeletons(6);
+      if (paginationWrapper) paginationWrapper.style.display = "none";
+
+      try {
+        await loadRecommendations(false);
+
+        resultCount.textContent = `(${Number(recommendTotal || recommendItems.length || 0).toLocaleString()}건)`;
+
+        if (!recommendItems || recommendItems.length === 0) {
+          workList.innerHTML = `
+            <div class="empty-state" style="grid-column: 1 / -1;">
+              <div class="empty-state-icon"><i class="bi bi-mortarboard"></i></div>
+              <h2 class="empty-state-title">추천 받은 공고가 없습니다</h2>
+              <p class="empty-state-description">교수님이 추천한 공고가 여기 표시됩니다.</p>
+              <button class="btn-search" type="button" id="goToAllFromRecommend">
+                <i class="bi bi-grid"></i> 전체 공고 보기
+              </button>
+            </div>
+          `;
+          const goBtn = document.getElementById("goToAllFromRecommend");
+          if (goBtn) {
+            goBtn.addEventListener("click", () => {
+              setTab("all");
+              currentPage = 1;
+              searchWorkList();
+            });
+          }
+          return;
+        }
+
+        currentItemMap.clear();
+        const cards = recommendItems.map((row) => {
+          let item = null;
+          if (row.item_json) {
+            try {
+              item = JSON.parse(row.item_json);
+            } catch (e) {
+              item = null;
+            }
+          }
+
+          if (!item || typeof item !== "object") {
+            item = {
+              wantedAuthNo: row.wanted_auth_no,
+              company: row.company,
+              title: row.title,
+              region: row.region,
+              closeDt: row.close_dt,
+              wantedInfoUrl: row.wanted_info_url,
+              infoSvc: row.provider
+            };
+          }
+
+          item.infoSvc = (row.provider || item.infoSvc || "WORK24");
+          item.wantedAuthNo = (row.wanted_auth_no || item.wantedAuthNo || "");
+          if (!item.title) item.title = row.title || "";
+          if (!item.company) item.company = row.company || "";
+          if (!item.wantedInfoUrl) item.wantedInfoUrl = row.wanted_info_url || "";
+          if (!item.region) item.region = row.region || "";
+          if (!item.closeDt) item.closeDt = row.close_dt || "";
+          item.recommendTutorName = row.tutor_user_nm || "";
+          item.recommendCourseName = row.course_nm || "";
+
+          const key = makeBookmarkKey(item.infoSvc, item.wantedAuthNo);
+          if (key) currentItemMap.set(key, item);
+          return buildWorkCard(item);
+        });
+        workList.innerHTML = cards.join("");
+      } catch (err) {
+        resultCount.textContent = "(0건)";
+        workList.innerHTML = renderErrorState(`추천 공고 조회 실패: ${err.message}`);
+      }
+    }
+
+    async function loadSentRecommendations(force = false) {
+      // 왜: 교수는 보낸 추천을 확인할 수 있어야 합니다.
+      if (!force && (sentItems && sentItems.length > 0)) return;
+
+      const size = 200;
+      const maxPages = 5;
+
+      sentItems = [];
+      sentTotal = 0;
+
+      for (let page = 1; page <= maxPages; page++) {
+        const payload = await fetchMalgnApi(`/api/job_recommend.jsp?mode=sent&page=${page}&size=${size}`);
+        if (!payload) break;
+
+        const total = Number(payload.total || 0);
+        if (!Number.isNaN(total)) sentTotal = total;
+
+        const items = Array.isArray(payload.items) ? payload.items : [];
+        items.forEach((row) => sentItems.push(row));
+
+        if (sentItems.length >= sentTotal) break;
+        if (items.length < size) break;
+      }
+
+      updateSentCount();
+    }
+
+    function buildSentCard(row) {
+      // 왜: 교수 보낸내역은 “학생/과목/공고”를 한눈에 보이게 카드로 정리합니다.
+      const detailUrl = row.wanted_info_url || "";
+      const titleHtml = detailUrl
+        ? `<a class="job-title-link" href="${detailUrl}" target="_blank" rel="noopener noreferrer">${row.title || "-"}</a>`
+        : `${row.title || "-"}`;
+      const studentLabel = row.student_user_nm ? `${row.student_user_nm}${row.student_login_id ? ` (${row.student_login_id})` : ""}` : "-";
+      const courseLabel = row.course_nm || "-";
+      const regDate = row.reg_date || "-";
+
+      return `
+        <article class="job-card" role="listitem" aria-label="${row.title || '추천 공고'}">
+          <div class="job-card-header">
+            <div class="job-company">
+              <div class="job-company-icon" aria-hidden="true">
+                <i class="bi bi-building"></i>
+              </div>
+              <span class="job-company-name">${row.company || "-"}</span>
+            </div>
+          </div>
+
+          <h2 class="job-title">${titleHtml}</h2>
+
+          <div class="job-meta">
+            <span class="job-meta-item">
+              <i class="bi bi-person" aria-hidden="true"></i>
+              추천 대상: ${studentLabel}
+            </span>
+            <span class="job-meta-item">
+              <i class="bi bi-mortarboard" aria-hidden="true"></i>
+              과목: ${courseLabel}
+            </span>
+          </div>
+
+          <div class="job-footer">
+            <div class="job-salary">
+              <span class="job-salary-label">보낸일</span>
+              <span class="job-salary-value">${regDate}</span>
+            </div>
+            <div class="job-deadline">
+              <i class="bi bi-clock" aria-hidden="true"></i>
+              ${row.close_dt || "-"}
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    async function renderSentList() {
+      workList.innerHTML = renderSkeletons(6);
+      if (paginationWrapper) paginationWrapper.style.display = "none";
+
+      try {
+        await loadSentRecommendations(false);
+
+        resultCount.textContent = `(${Number(sentTotal || sentItems.length || 0).toLocaleString()}건)`;
+
+        if (!sentItems || sentItems.length === 0) {
+          workList.innerHTML = `
+            <div class="empty-state" style="grid-column: 1 / -1;">
+              <div class="empty-state-icon"><i class="bi bi-send"></i></div>
+              <h2 class="empty-state-title">보낸 추천이 없습니다</h2>
+              <p class="empty-state-description">학생에게 추천을 보내면 여기에 기록됩니다.</p>
+            </div>
+          `;
+          return;
+        }
+
+        workList.innerHTML = sentItems.map(buildSentCard).join("");
+      } catch (err) {
+        resultCount.textContent = "(0건)";
+        workList.innerHTML = renderErrorState(`보낸 추천 조회 실패: ${err.message}`);
+      }
+    }
+
+    async function renderSearchStatList() {
+      // 왜: 교수는 "담당 과목 학생들이 어떤 검색어를 검색했는지(익명)"를 보고 싶어 합니다.
+      // - 검색어를 클릭하면 해당 키워드로 즉시 공고 검색을 수행합니다.
+      workList.innerHTML = renderSkeletons(6);
+      if (paginationWrapper) paginationWrapper.style.display = "none";
+
+      if (!canViewSearchStat) {
+        resultCount.textContent = "(0건)";
+        workList.innerHTML = renderErrorState("검색어 통계는 교수/관리자 계정에서만 볼 수 있습니다.");
+        return;
+      }
+
+      try {
+        searchStatItems = [];
+        searchStatTotal = 0;
+        searchStatCourseCount = 0;
+        updateSearchStatCount();
+
+        await loadSearchStats(true);
+
+        if (!searchStatCourseCount) {
+          resultCount.textContent = "(0개)";
+          workList.innerHTML = `
+            <div class="empty-state" style="grid-column: 1 / -1;">
+              <div class="empty-state-icon"><i class="bi bi-bar-chart"></i></div>
+              <h2 class="empty-state-title">담당 과목이 없습니다</h2>
+              <p class="empty-state-description">주강사/보조강사로 맡은 과목이 있어야 학생 검색어 통계를 볼 수 있습니다.</p>
+            </div>
+          `;
+          return;
+        }
+
+        resultCount.textContent = `(${Number(searchStatTotal || 0).toLocaleString()}개)`;
+
+        const keywordHtml = (searchStatItems || []).map((row) => {
+          const q = (row.query || "").trim();
+          const cnt = Number(row.cnt || 0);
+          if (!q) return "";
+          return `
+            <button type="button" class="filter-tag search-stat-keyword" data-keyword="${escapeHtml(q)}" aria-label="검색어 '${escapeHtml(q)}'로 공고 검색">
+              ${escapeHtml(q)} <span class="job-tab-badge" style="margin-left:6px;">${cnt.toLocaleString()}</span>
+            </button>
+          `;
+        }).filter((v) => v).join("");
+
+        workList.innerHTML = `
+          <div style="grid-column: 1 / -1;">
+            <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+              <div class="filter-hint" style="margin:0;">학생 이름은 표시되지 않습니다. (최근 30일 · 담당 과목 ${Number(searchStatCourseCount || 0).toLocaleString()}개)</div>
+            </div>
+            <div class="active-filters" id="searchStatKeywordList">
+              ${keywordHtml || `<span class="filter-tag">최근 30일 동안 검색 기록이 없습니다.</span>`}
+            </div>
+          </div>
+        `;
+      } catch (err) {
+        resultCount.textContent = "(0개)";
+        workList.innerHTML = renderErrorState(`검색어 통계 조회 실패: ${err.message}`);
+      }
+    }
+
+    async function loadTutorCourses(force = false) {
+      if (!force && tutorCourses && tutorCourses.length > 0) return tutorCourses;
+
+      const payload = await fetchMalgnApi("/tutor_lms/api/course_list.jsp");
+      if (!payload || payload.rst_code !== "0000") {
+        tutorCourses = [];
+        return tutorCourses;
+      }
+      tutorCourses = Array.isArray(payload.rst_data) ? payload.rst_data : [];
+      return tutorCourses;
+    }
+
+    function renderTutorCourseOptions(courses) {
+      if (!recommendCourseSelect) return;
+      recommendCourseSelect.innerHTML = "";
+      const option = document.createElement("option");
+      option.value = "";
+      option.textContent = "과목을 선택하세요";
+      recommendCourseSelect.appendChild(option);
+
+      (courses || []).forEach((row) => {
+        const courseId = row.id || row.course_id || row.courseId;
+        if (!courseId) return;
+        const courseName = row.course_nm || row.subject_nm_conv || row.course_nm_conv || "과목";
+        const programName = row.program_nm_conv || row.program_nm || "";
+        const label = programName && programName !== "-" ? `${courseName} (${programName})` : courseName;
+        const opt = document.createElement("option");
+        opt.value = String(courseId);
+        opt.textContent = label;
+        recommendCourseSelect.appendChild(opt);
+      });
+    }
+
+    async function detectTutorMode() {
+      try {
+        const payload = await fetchMalgnApi("/tutor_lms/api/course_list.jsp");
+        isTutorMode = !!(payload && payload.rst_code === "0000");
+      } catch (e) {
+        isTutorMode = false;
+      }
+    }
+
+    async function detectSearchStatPermission() {
+      // 왜: 검색어 통계는 교수뿐 아니라 관리자도 볼 수 있어야 합니다.
+      // - 추천/보낸추천은 tutor 전용이므로 isTutorMode로 제어하고,
+      //   통계 탭은 실제 권한 API 호출 성공 여부로 노출을 결정합니다.
+      try {
+        const payload = await fetchMalgnApi("/api/job_search_stat.jsp?mode=stats&days=30&limit=1");
+        canViewSearchStat = !!payload;
+      } catch (e) {
+        canViewSearchStat = false;
+      }
+    }
+
+    function applyTutorUiVisibility() {
+      if (jobTabSentBtn) {
+        jobTabSentBtn.style.display = isTutorMode ? "" : "none";
+      }
+      if (jobTabSearchStatBtn) {
+        jobTabSearchStatBtn.style.display = canViewSearchStat ? "" : "none";
+      }
+    }
+
+    async function loadCourseStudents(courseId) {
+      if (!courseId) return [];
+      const payload = await fetchMalgnApi(`/tutor_lms/api/course_students_list.jsp?course_id=${encodeURIComponent(courseId)}`);
+      if (!payload || payload.rst_code !== "0000") return [];
+      return Array.isArray(payload.rst_data) ? payload.rst_data : [];
+    }
+
+    function openRecommendModal(item) {
+      if (!recommendModal) return;
+      currentRecommendItem = item || null;
+      if (recommendMsgEl) recommendMsgEl.textContent = "";
+      if (recommendSelectAll) recommendSelectAll.checked = false;
+      if (recommendModal) recommendModal.classList.add("active");
+      if (recommendModal) recommendModal.setAttribute("aria-hidden", "false");
+      loadTutorCourses(false)
+        .then((courses) => {
+          renderTutorCourseOptions(courses);
+          if (recommendStudentsEl) {
+            recommendStudentsEl.innerHTML = `<div class="text-muted" style="padding: 8px;">과목을 먼저 선택해 주세요.</div>`;
+          }
+        })
+        .catch(() => {
+          if (recommendStudentsEl) {
+            recommendStudentsEl.innerHTML = `<div class="text-muted" style="padding: 8px;">담당과목을 불러오지 못했습니다.</div>`;
+          }
+        });
+    }
+
+    function closeRecommendModal() {
+      if (recommendModal) recommendModal.classList.remove("active");
+      if (recommendModal) recommendModal.setAttribute("aria-hidden", "true");
+      currentRecommendItem = null;
+    }
+
+    function renderRecommendStudents(students) {
+      if (!recommendStudentsEl) return;
+      if (!students || students.length === 0) {
+        recommendStudentsEl.innerHTML = `<div class="text-muted" style="padding: 8px;">수강생이 없습니다.</div>`;
+        return;
+      }
+
+      const html = students.map((row) => {
+        const uid = row.user_id || row.userId || "";
+        const name = row.name || row.user_nm || row.userName || "";
+        const loginId = row.login_id || row.student_id || "";
+        return `
+          <label class="recommend-students__item">
+            <input type="checkbox" class="recommend-student-checkbox" value="${uid}">
+            <span>${name}${loginId ? ` (${loginId})` : ""}</span>
+          </label>
+        `;
+      });
+      recommendStudentsEl.innerHTML = html.join("");
+    }
+
+    function collectSelectedStudentIds() {
+      if (!recommendStudentsEl) return [];
+      const checkboxes = recommendStudentsEl.querySelectorAll(".recommend-student-checkbox:checked");
+      return Array.from(checkboxes).map((el) => el.value).filter((v) => v);
+    }
+
+    function setTab(view) {
+      currentView = view;
+      const isAll = view === "all";
+      const isBookmark = view === "bookmark";
+      const isRecommend = view === "recommend";
+      const isStat = view === "stat";
+      const isSent = view === "sent";
+
+      if (jobTabAllBtn) jobTabAllBtn.setAttribute("aria-selected", isAll ? "true" : "false");
+      if (jobTabBookmarkBtn) jobTabBookmarkBtn.setAttribute("aria-selected", isBookmark ? "true" : "false");
+      if (jobTabRecommendBtn) jobTabRecommendBtn.setAttribute("aria-selected", isRecommend ? "true" : "false");
+      if (jobTabSearchStatBtn) jobTabSearchStatBtn.setAttribute("aria-selected", isStat ? "true" : "false");
+      if (jobTabSentBtn) jobTabSentBtn.setAttribute("aria-selected", isSent ? "true" : "false");
+
+      // 왜: 북마크 탭은 DB 목록(최대 200*5)을 그대로 보여주므로, 기존 검색 페이지네이션은 숨깁니다.
+      if (paginationWrapper) paginationWrapper.style.display = isAll ? (totalItems > itemsPerPage ? "block" : "none") : "none";
+    }
+
+    function resetSelect(select, label) {
+      select.innerHTML = "";
+      const option = document.createElement("option");
+      option.value = "";
+      option.textContent = label;
+      select.appendChild(option);
+      select.value = "";
+    }
+
+    function escapeHtml(text) {
+      // 왜: 검색어 통계에서 사용자가 입력한 문자열을 그대로 HTML에 넣으면 XSS 위험이 있습니다.
+      const s = (text === null || text === undefined) ? "" : String(text);
+      return s
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll("\"", "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+
+    function normalizeDeptText(text) {
+      if (!text) return "";
+      return text
+        .replace(/\([^)]*\)/g, " ")
+        .replace(/학과|학부|전공|과/g, " ")
+        .replace(/[^가-힣a-zA-Z0-9\s]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function buildDeptTokens(text) {
+      if (!text) return [];
+      const tokens = text.split(" ").filter((token) => token.length >= 2);
+      return Array.from(new Set(tokens));
+    }
+
+    function selectByValue(select, value) {
+      if (!select || !value) return false;
+      const option = Array.from(select.options).find((opt) => opt.value === value);
+      if (!option) return false;
+      select.value = value;
+      return true;
+    }
+
+    function selectByText(select, label) {
+      if (!select || !label) return false;
+      const target = normalizeDeptText(label);
+      if (!target) return false;
+
+      const options = Array.from(select.options).filter((opt) => opt.value);
+      let best = null;
+      let bestScore = 0;
+
+      options.forEach((opt) => {
+        const optionText = normalizeDeptText(opt.textContent || "");
+        if (!optionText) return;
+        let score = 0;
+        if (optionText === target) score += 4;
+        if (optionText.includes(target)) score += 3;
+        if (target.includes(optionText)) score += 2;
+        if (score > bestScore) {
+          bestScore = score;
+          best = opt;
+        }
+      });
+
+      if (best && best.value) {
+        select.value = best.value;
+        return true;
+      }
+      return false;
+    }
+
+    function selectBestMatch(select, deptText) {
+      if (!select || !deptText) return false;
+      const target = normalizeDeptText(deptText);
+      if (!target) return false;
+
+      const tokens = buildDeptTokens(target);
+      let bestScore = 0;
+      let bestValue = "";
+
+      Array.from(select.options).forEach((opt) => {
+        if (!opt.value) return;
+        const optionText = normalizeDeptText(opt.textContent || "");
+        if (!optionText) return;
+
+        let score = 0;
+        if (optionText.includes(target)) score += 3;
+        if (target.includes(optionText)) score += 2;
+        tokens.forEach((token) => {
+          if (optionText.includes(token)) score += 1;
+        });
+
+        if (score > bestScore) {
+          bestScore = score;
+          bestValue = opt.value;
+        }
+      });
+
+      if (bestScore > 0 && bestValue) {
+        select.value = bestValue;
+        return true;
+      }
+      return false;
+    }
+
+    async function loadDeptOccupationMap() {
+      try {
+        const res = await fetch("/job-dept-occupation-map.json", { cache: "no-store" });
+        if (!res.ok) return null;
+        const data = await res.json();
+        if (!data || !Array.isArray(data.items)) return null;
+        return data;
+      } catch (err) {
+        return null;
+      }
+    }
+
+    function populateDeptSelect(mapData) {
+      if (!deptSelect || !mapData || !Array.isArray(mapData.items)) return;
+      const list = mapData.items
+        .map((item) => item.deptName)
+        .filter((name) => name && name.trim());
+      const uniq = Array.from(new Set(list)).sort((a, b) => a.localeCompare(b, "ko"));
+
+      deptSelect.innerHTML = "";
+      const defaultOption = document.createElement("option");
+      defaultOption.value = "";
+      defaultOption.textContent = "학과를 선택하세요 (테스트)";
+      deptSelect.appendChild(defaultOption);
+
+      uniq.forEach((name) => {
+        const option = document.createElement("option");
+        option.value = name;
+        option.textContent = name;
+        deptSelect.appendChild(option);
+      });
+
+      if (defaultDept) {
+        deptSelect.value = defaultDept;
+      }
+    }
+
+    function findDeptMapping(deptName, mapData) {
+      if (!deptName || !mapData || !Array.isArray(mapData.items)) return null;
+      const target = normalizeDeptText(deptName);
+      if (!target) return null;
+
+      const exact = mapData.items.find((item) => {
+        if (!item || !item.deptName) return false;
+        return normalizeDeptText(item.deptName) === target;
+      });
+      if (exact) return exact;
+
+      const contains = mapData.items.find((item) => {
+        if (!item || !item.deptName) return false;
+        const key = normalizeDeptText(item.deptName);
+        return key && target.includes(key);
+      });
+      if (contains) return contains;
+
+      const keyword = mapData.items.find((item) => {
+        if (!item || !item.keywords) return false;
+        const keywords = Array.isArray(item.keywords) ? item.keywords : [];
+        return keywords.some((k) => target.includes(normalizeDeptText(k)));
+      });
+      return keyword || null;
+    }
+
+    async function applyDeptMapping(mapping) {
+      if (!mapping) return false;
+      let applied = false;
+
+      if (mapping.provider) {
+        selectByValue(providerSelect, mapping.provider);
+      }
+
+      if (mapping.depth1Code) {
+        if (selectByValue(jobLargeSelect, mapping.depth1Code)) {
+          await loadOccupationDepth2();
+          applied = true;
+        }
+      } else if (mapping.depth1Label) {
+        if (selectByText(jobLargeSelect, mapping.depth1Label)) {
+          await loadOccupationDepth2();
+          applied = true;
+        }
+      }
+
+      if (mapping.depth2Code) {
+        if (selectByValue(jobMiddleSelect, mapping.depth2Code)) {
+          await loadOccupationDepth3();
+          applied = true;
+        }
+      } else if (mapping.depth2Label) {
+        if (selectByText(jobMiddleSelect, mapping.depth2Label)) {
+          await loadOccupationDepth3();
+          applied = true;
+        }
+      }
+
+      if (mapping.depth3Code) {
+        if (selectByValue(jobSmallSelect, mapping.depth3Code)) {
+          applied = true;
+        }
+      } else if (mapping.depth3Label) {
+        if (selectByText(jobSmallSelect, mapping.depth3Label)) {
+          applied = true;
+        }
+      }
+
+      return applied;
+    }
+
+    // D-Day 계산
+    function calculateDday(closeDt) {
+      if (!closeDt || closeDt === "-") return null;
+      
+      // 날짜 포맷 파싱 (YYYY-MM-DD 또는 YY-MM-DD)
+      const dateStr = closeDt.replace(/\./g, '-');
+      const closeDate = new Date(dateStr);
+      if (!Number.isFinite(closeDate.getTime())) return null;
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      closeDate.setHours(0, 0, 0, 0);
+      
+      const diffTime = closeDate - today;
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      
+      if (diffDays < 0) return { text: "마감", urgent: true };
+      if (diffDays === 0) return { text: "D-Day", urgent: true };
+      if (diffDays <= 7) return { text: `D-${diffDays}`, urgent: true };
+      return { text: `D-${diffDays}`, urgent: false };
+    }
+
+    // ==========================================
+    // 스켈레톤 로딩 UI
+    // ==========================================
+    function renderSkeletons(count = 6) {
+      return Array(count).fill(0).map(() => `
+        <div class="skeleton-card" role="listitem" aria-label="로딩 중">
+          <div class="skeleton-header">
+            <div class="d-flex align-items-center gap-2">
+              <div class="skeleton skeleton-icon"></div>
+              <div class="skeleton skeleton-text" style="width: 100px"></div>
+            </div>
+          </div>
+          <div class="skeleton skeleton-title"></div>
+          <div class="d-flex gap-2 mb-3">
+            <div class="skeleton skeleton-text-sm" style="width: 60px"></div>
+            <div class="skeleton skeleton-text-sm" style="width: 80px"></div>
+            <div class="skeleton skeleton-text-sm" style="width: 50px"></div>
+          </div>
+          <div class="d-flex gap-2 mb-3">
+            <div class="skeleton skeleton-badge"></div>
+            <div class="skeleton skeleton-badge"></div>
+            <div class="skeleton skeleton-badge"></div>
+          </div>
+          <div class="d-flex justify-content-between align-items-center pt-3" style="border-top: 1px solid var(--color-gray-100)">
+            <div class="skeleton skeleton-text" style="width: 120px"></div>
+            <div class="skeleton skeleton-text" style="width: 80px"></div>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    // ==========================================
+    // 빈 상태 UI
+    // ==========================================
+    function renderEmptyState() {
+      return `
+        <div class="empty-state" style="grid-column: 1 / -1;">
+          <div class="empty-state-icon">
+            <i class="bi bi-briefcase"></i>
+          </div>
+          <h2 class="empty-state-title">검색 결과가 없습니다</h2>
+          <p class="empty-state-description">
+            다른 검색 조건으로 다시 시도해 보세요.<br>
+            필터를 줄이면 더 많은 결과를 볼 수 있습니다.
+          </p>
+          <button class="btn-search" onclick="resetFilters()" aria-label="필터 초기화">
+            <i class="bi bi-arrow-counterclockwise"></i> 필터 초기화
+          </button>
+        </div>
+      `;
+    }
+
+    // ==========================================
+    // 에러 상태 UI
+    // ==========================================
+    function renderErrorState(message) {
+      return `
+        <div class="error-state" style="grid-column: 1 / -1;">
+          <div class="error-state-icon">
+            <i class="bi bi-exclamation-triangle"></i>
+          </div>
+          <p class="error-state-message">${message}</p>
+          <button class="btn-search mt-3" onclick="searchWorkList()" aria-label="다시 시도">
+            <i class="bi bi-arrow-clockwise"></i> 다시 시도
+          </button>
+        </div>
+      `;
+    }
+
+    // ==========================================
+    // 채용 카드 렌더링
+    // ==========================================
+    function buildWorkCard(item) {
+      const region = (!item.region || item.region === "undefined") ? (item.basicAddr || "-") : item.region;
+      const dday = calculateDday(item.closeDt);
+      const ddayClass = dday?.urgent ? "urgent" : "";
+      const provider = resolveProviderFromItem(item);
+      // 왜: provider 값을 그대로 보여주면 사용자가 이해하기 어려워, 화면 표시용 라벨로 바꿉니다.
+      const providerLabel = (provider === "JOBKOREA")
+        ? "잡코리아"
+        : (provider === "WORK24")
+          ? "Work24"
+          : (provider === "ALL")
+            ? "통합"
+            : (provider || "");
+      const providerBadgeClass = (provider === "JOBKOREA")
+        ? "job-badge-provider-jobkorea"
+        : (provider === "WORK24")
+          ? "job-badge-provider-work24"
+          : "job-badge-provider-neutral";
+      const providerBadgeHtml = providerLabel
+        ? `<span class="job-badge ${providerBadgeClass}" aria-label="제공처: ${providerLabel}">${providerLabel}</span>`
+        : "";
+      const wantedAuthNo = resolveWantedAuthNo(item);
+      const detailUrl = item.wantedInfoUrl || item.wantedMobileInfoUrl || "";
+      const key = makeBookmarkKey(provider, wantedAuthNo);
+      const isBookmarked = key ? bookmarkedKeys.has(key) : false;
+      const bookmarkIconClass = isBookmarked ? "bi-bookmark-fill" : "bi-bookmark";
+       
+      // 뱃지 생성
+      const badges = [];
+      if (item.empTpCd || item.holidayTpNm) {
+        badges.push(`<span class="job-badge job-badge-primary">${item.holidayTpNm || "정규직"}</span>`);
+      }
+      if (item.minEdubg && item.minEdubg !== "-") {
+        badges.push(`<span class="job-badge job-badge-primary">${item.minEdubg}</span>`);
+      }
+      if (item.salTpNm) {
+        badges.push(`<span class="job-badge job-badge-success">${item.salTpNm}</span>`);
+      }
+
+      const titleHtml = detailUrl
+        ? `<a class="job-title-link" href="${detailUrl}" target="_blank" rel="noopener noreferrer">${item.title || "-"}</a>`
+        : `${item.title || "-"}`;
+
+      const recommendInfo = (item.recommendTutorName || item.recommendCourseName) ? `
+        <div class="job-meta job-meta-recommend">
+          ${item.recommendTutorName ? `
+            <span class="job-meta-item">
+              <i class="bi bi-mortarboard" aria-hidden="true"></i>
+              추천: ${item.recommendTutorName}
+            </span>
+          ` : ""}
+          ${item.recommendCourseName ? `
+            <span class="job-meta-item">
+              <i class="bi bi-book" aria-hidden="true"></i>
+              과목: ${item.recommendCourseName}
+            </span>
+          ` : ""}
+        </div>
+      ` : "";
+
+      return `
+        <article class="job-card ${detailUrl ? "clickable" : ""}" role="listitem" aria-label="${item.title || '채용 공고'}"
+          data-job-key="${key}" data-job-provider="${provider}" data-job-auth-no="${wantedAuthNo}" data-detail-url="${detailUrl}">
+          <div class="job-card-header">
+            <div class="job-company">
+              <div class="job-company-icon" aria-hidden="true">
+                <i class="bi bi-building"></i>
+              </div>
+              <span class="job-company-name">${item.company || "-"}</span>
+              ${providerBadgeHtml}
+            </div>
+            <button class="job-bookmark ${isBookmarked ? "active" : ""}" aria-label="${isBookmarked ? "저장 해제" : "저장하기"}" title="${isBookmarked ? "저장 해제" : "저장하기"}" ${wantedAuthNo ? "" : "disabled"}>
+              <i class="bi ${bookmarkIconClass}"></i>
+            </button>
+          </div>
+          
+          <h2 class="job-title">${titleHtml}</h2>
+          ${recommendInfo}
+          
+          <div class="job-meta">
+            <span class="job-meta-item">
+              <i class="bi bi-geo-alt" aria-hidden="true"></i>
+              ${region}
+            </span>
+            <span class="job-meta-item">
+              <i class="bi bi-person" aria-hidden="true"></i>
+              ${item.career || "경력무관"}
+            </span>
+            ${item.indTpNm ? `
+              <span class="job-meta-item">
+                <i class="bi bi-tag" aria-hidden="true"></i>
+                ${item.indTpNm}
+              </span>
+            ` : ""}
+          </div>
+          
+          <div class="job-badges">
+            ${badges.join("")}
+          </div>
+          
+          <div class="job-footer">
+            <div class="job-salary">
+              <span class="job-salary-label">급여</span>
+              <span class="job-salary-value">${item.sal || "-"}</span>
+            </div>
+            <div class="job-deadline ${ddayClass}">
+              <i class="bi bi-clock" aria-hidden="true"></i>
+              ${dday ? dday.text : (item.closeDt || "-")}
+            </div>
+          </div>
+          
+          <div class="job-actions">
+            <a href="${detailUrl || '#'}" target="_blank" rel="noopener noreferrer" 
+               class="btn-apply" aria-label="${item.title}에 지원하기">
+              <i class="bi bi-send" aria-hidden="true"></i> 지원하기
+            </a>
+            ${isTutorMode ? `
+              <button class="btn-detail btn-recommend" type="button" aria-label="${item.title} 추천 보내기">
+                <i class="bi bi-send" aria-hidden="true"></i> 추천 보내기
+              </button>
+            ` : (isStaffMode ? `
+              <a href="${detailUrl || '#'}" target="_blank" rel="noopener noreferrer"
+                 class="btn-detail" aria-label="${item.title} 상세보기">
+                <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i>
+              </a>
+            ` : '')}
+          </div>
+        </article>
+      `;
+    }
+
+    // ==========================================
+    // 선택된 필터 태그 표시
+    // ==========================================
+    function updateActiveFilters() {
+      const nlQuery = (nlQueryInput && nlQueryInput.value) ? String(nlQueryInput.value).trim() : "";
+      if (nlQuery) {
+        // 왜: 자연어 검색은 필터와 무관하게 통합(ALL)로만 조회되므로, 태그도 자연어만 보여줍니다.
+        const safe = nlQuery.length > 50 ? (nlQuery.substring(0, 50) + "...") : nlQuery;
+        activeFiltersEl.innerHTML = `
+          <span class="filter-tag">자연어: ${safe}</span>
+          <span class="filter-tag">제공처: 통합</span>
+        `;
+        return;
+      }
+
+      const filters = [];
+      
+      if (jobLargeSelect.value) {
+        const text = jobLargeSelect.options[jobLargeSelect.selectedIndex].text;
+        if (text !== "전체") filters.push({ type: "job", text });
+      }
+      if (jobMiddleSelect.value) {
+        const text = jobMiddleSelect.options[jobMiddleSelect.selectedIndex].text;
+        if (text !== "전체") filters.push({ type: "job", text });
+      }
+      if (jobSmallSelect.value) {
+        const text = jobSmallSelect.options[jobSmallSelect.selectedIndex].text;
+        if (text !== "전체") filters.push({ type: "job", text });
+      }
+      if (areaSelect.value) {
+        const text = areaSelect.options[areaSelect.selectedIndex].text;
+        if (text !== "전체") filters.push({ type: "area", text });
+      }
+
+      if (isSalaryEducationSupported() && educationSelect && educationSelect.value) {
+        const text = educationSelect.options[educationSelect.selectedIndex].text;
+        filters.push({ type: "edu", text: `학력: ${text}` });
+      }
+
+      const salaryValid = validateSalaryInputs();
+      if (salaryValid.ok && salaryValid.salTp) {
+        const unit = (salaryValid.salTp === "Y" || salaryValid.salTp === "M") ? "만원" : "원";
+        filters.push({ type: "salary", text: `급여: ${Number(salaryValid.minPay).toLocaleString()}~${Number(salaryValid.maxPay).toLocaleString()}${unit}` });
+      }
+      
+      if (filters.length === 0) {
+        activeFiltersEl.innerHTML = "";
+        return;
+      }
+      
+      activeFiltersEl.innerHTML = filters.map(f => `
+        <span class="filter-tag">
+          ${f.text}
+        </span>
+      `).join("");
+    }
+
+    // ==========================================
+    // 페이지네이션 렌더링
+    // ==========================================
+    function renderPagination() {
+      const totalPages = Math.ceil(totalItems / itemsPerPage);
+      
+      if (totalPages <= 1) {
+        paginationWrapper.style.display = "none";
+        return;
+      }
+      
+      paginationWrapper.style.display = "flex";
+      
+      let html = "";
+      
+      // 이전 버튼
+      html += `
+        <button class="page-btn" ${currentPage === 1 ? "disabled" : ""} 
+                onclick="goToPage(${currentPage - 1})" aria-label="이전 페이지">
+          <i class="bi bi-chevron-left"></i>
+        </button>
+      `;
+      
+      // 페이지 번호
+      const maxVisible = 5;
+      let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+      let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+      
+      if (endPage - startPage < maxVisible - 1) {
+        startPage = Math.max(1, endPage - maxVisible + 1);
+      }
+      
+      if (startPage > 1) {
+        html += `<button class="page-btn" onclick="goToPage(1)">1</button>`;
+        if (startPage > 2) html += `<span class="page-btn" style="border:none;">...</span>`;
+      }
+      
+      for (let i = startPage; i <= endPage; i++) {
+        html += `
+          <button class="page-btn ${i === currentPage ? "active" : ""}" 
+                  onclick="goToPage(${i})" aria-label="${i} 페이지">
+            ${i}
+          </button>
+        `;
+      }
+      
+      if (endPage < totalPages) {
+        if (endPage < totalPages - 1) html += `<span class="page-btn" style="border:none;">...</span>`;
+        html += `<button class="page-btn" onclick="goToPage(${totalPages})">${totalPages}</button>`;
+      }
+      
+      // 다음 버튼
+      html += `
+        <button class="page-btn" ${currentPage === totalPages ? "disabled" : ""} 
+                onclick="goToPage(${currentPage + 1})" aria-label="다음 페이지">
+          <i class="bi bi-chevron-right"></i>
+        </button>
+      `;
+      
+      paginationEl.innerHTML = html;
+    }
+
+    function goToPage(page) {
+      currentPage = page;
+      searchWorkList();
+      // 스크롤을 결과 상단으로
+      workList.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    // ==========================================
+    // 필터 초기화
+    // ==========================================
+    function resetFilters() {
+      resetSelect(jobLargeSelect, "전체");
+      resetSelect(jobMiddleSelect, "전체");
+      resetSelect(jobSmallSelect, "전체");
+      areaSelect.value = "";
+      providerSelect.value = "WORK24";
+      if (nlQueryInput) nlQueryInput.value = "";
+      if (salTypeSelect) salTypeSelect.value = "";
+      if (minPayInput) minPayInput.value = "";
+      if (maxPayInput) maxPayInput.value = "";
+      if (educationSelect) educationSelect.value = "";
+      setSalaryEducationControlsEnabled(isSalaryEducationSupported());
+      currentPage = 1;
+      updateActiveFilters();
+      Promise.all([loadOccupationDepth1(), loadRegionCodes()]).then(() => searchWorkList());
+    }
+
+    // ==========================================
+    // API 호출 함수들
+    // ==========================================
+    async function loadOccupationDepth1() {
+      const provider = resolveSelectedProvider();
+      const data = await fetchJson(`/job/occupation-codes?depthType=1&provider=${encodeURIComponent(provider)}`);
+      resetSelect(jobLargeSelect, "전체");
+      data.forEach(item => {
+        const option = document.createElement("option");
+        option.value = item.code || "";
+        option.textContent = item.title;
+        jobLargeSelect.appendChild(option);
+      });
+      jobLargeSelect.value = "";
+      resetSelect(jobMiddleSelect, "전체");
+      resetSelect(jobSmallSelect, "전체");
+    }
+
+    async function loadOccupationDepth2() {
+      const depth1Code = jobLargeSelect.value || "";
+      resetSelect(jobMiddleSelect, "전체");
+      resetSelect(jobSmallSelect, "전체");
+      if (!depth1Code) return;
+
+      const provider = resolveSelectedProvider();
+      const data = await fetchJson(`/job/occupation-codes?depthType=2&depth1=${encodeURIComponent(depth1Code)}&provider=${encodeURIComponent(provider)}`);
+      data.forEach(item => {
+        const option = document.createElement("option");
+        option.value = item.code || "";
+        option.textContent = item.title;
+        jobMiddleSelect.appendChild(option);
+      });
+      jobMiddleSelect.value = "";
+    }
+
+    async function loadOccupationDepth3() {
+      const depth1Code = jobLargeSelect.value || "";
+      const depth2Code = jobMiddleSelect.value || "";
+      resetSelect(jobSmallSelect, "전체");
+      if (!depth1Code || !depth2Code) return;
+
+      const provider = resolveSelectedProvider();
+      const data = await fetchJson(`/job/occupation-codes?depthType=3&depth1=${encodeURIComponent(depth1Code)}&depth2=${encodeURIComponent(depth2Code)}&provider=${encodeURIComponent(provider)}`);
+      data.forEach(item => {
+        const option = document.createElement("option");
+        option.value = item.code || "";
+        option.textContent = item.title;
+        jobSmallSelect.appendChild(option);
+      });
+      jobSmallSelect.value = "";
+    }
+
+    async function applyDefaultFilters() {
+      // 왜: URL에 전달된 기본값이 있으면 학생 학과에 맞춰 자동 선택합니다.
+      if (defaultProvider) {
+        selectByValue(providerSelect, defaultProvider);
+      }
+
+      let applied = false;
+
+      if (defaultDept && deptOccupationMap) {
+        const mapping = findDeptMapping(defaultDept, deptOccupationMap);
+        if (mapping) {
+          applied = await applyDeptMapping(mapping);
+        }
+      }
+
+      if (defaultDepth1) {
+        if (selectByValue(jobLargeSelect, defaultDepth1)) {
+          await loadOccupationDepth2();
+          applied = true;
+        }
+      }
+
+      if (defaultDepth2) {
+        if (selectByValue(jobMiddleSelect, defaultDepth2)) {
+          await loadOccupationDepth3();
+          applied = true;
+        }
+      }
+
+      if (defaultDepth3) {
+        if (selectByValue(jobSmallSelect, defaultDepth3)) {
+          applied = true;
+        }
+      }
+
+      if (!applied && defaultDept) {
+        const matchedLarge = selectBestMatch(jobLargeSelect, defaultDept);
+        if (matchedLarge) await loadOccupationDepth2();
+        const matchedMiddle = selectBestMatch(jobMiddleSelect, defaultDept);
+        if (matchedMiddle) await loadOccupationDepth3();
+        selectBestMatch(jobSmallSelect, defaultDept);
+      }
+    }
+
+    async function loadRegionCodes() {
+      const provider = resolveSelectedProvider();
+      const data = await fetchJson(`/job/region-codes?depthType=1&provider=${encodeURIComponent(provider)}`);
+      areaSelect.innerHTML = "";
+      
+      const allOption = document.createElement("option");
+      allOption.value = "";
+      allOption.textContent = "전체";
+      areaSelect.appendChild(allOption);
+      
+      data.forEach(item => {
+        const option = document.createElement("option");
+        option.value = (item.title === "지역무관") ? "" : (item.code || "");
+        option.textContent = item.title;
+        areaSelect.appendChild(option);
+      });
+      areaSelect.value = "";
+    }
+
+    async function searchWorkList() {
+      // 로딩 상태 표시
+      workList.innerHTML = renderSkeletons(6);
+      paginationWrapper.style.display = "none";
+      updateActiveFilters();
+      
+      const nlQuery = (nlQueryInput && nlQueryInput.value) ? String(nlQueryInput.value).trim() : "";
+
+      const params = new URLSearchParams();
+      params.set("startPage", String(currentPage));
+      params.set("display", String(itemsPerPage));
+      
+      let url = "";
+
+      if (nlQuery) {
+        // 왜: 자연어 검색은 필터와 무관하게 통합(ALL)로만 조회합니다. (페이지네이션만 유지)
+        // 왜: 교수 검색어 통계에서 "학생들이 검색했던 키워드"를 보여주려면, 검색 시점에 로그를 남겨야 합니다.
+        // - 폴백 금지: 로그 저장이 실패하면 검색도 실패로 처리되어 원인이 드러나야 합니다.
+        await fetchMalgnApi("/api/job_search_stat.jsp", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" },
+          body: new URLSearchParams({ mode: "log", query: nlQuery })
+        });
+
+        params.set("provider", "ALL");
+        params.set("q", nlQuery);
+        url = `/job/recruits/nl?${params.toString()}`;
+      } else {
+        const region = areaSelect.value || "";
+        const occupation = jobSmallSelect.value || jobMiddleSelect.value || jobLargeSelect.value || "";
+        const provider = resolveSelectedProvider();
+
+        const salaryValid = validateSalaryInputs();
+        if (!salaryValid.ok) {
+          resultCount.textContent = "(0건)";
+          workList.innerHTML = renderErrorState(salaryValid.message || "입력값을 확인해주세요.");
+          return;
+        }
+
+        params.set("provider", provider);
+        params.set("region", region);
+        params.set("occupation", occupation);
+
+        if (isSalaryEducationSupported()) {
+          if (educationSelect && educationSelect.value) {
+            params.set("education", String(educationSelect.value).trim());
+          }
+          if (salaryValid.salTp) {
+            params.set("salTp", salaryValid.salTp);
+            params.set("minPay", String(salaryValid.minPay));
+            params.set("maxPay", String(salaryValid.maxPay));
+          }
+        }
+
+        url = `/job/recruits?${params.toString()}`;
+      }
+      
+      try {
+        const data = await fetchJson(url);
+        const items = (data && data.wanted) ? data.wanted : [];
+        totalItems = data.total || items.length;
+        
+        resultCount.textContent = `(${Number(totalItems || 0).toLocaleString()}건)`;
+        
+        if (items.length === 0) {
+          workList.innerHTML = renderEmptyState();
+        } else {
+          // 왜: 클릭 이벤트에서 아이템 스냅샷을 꺼내 쓰기 위해 렌더링 직전에 Map을 채웁니다.
+          currentItemMap.clear();
+          items.forEach((item) => {
+            const provider = resolveProviderFromItem(item);
+            const wantedAuthNo = resolveWantedAuthNo(item);
+            const key = makeBookmarkKey(provider, wantedAuthNo);
+            if (key) currentItemMap.set(key, item);
+          });
+          workList.innerHTML = items.map(buildWorkCard).join("");
+          renderPagination();
+        }
+      } catch (err) {
+        resultCount.textContent = "(0건)";
+        workList.innerHTML = renderErrorState(`조회 실패: ${err.message}`);
+      }
+    }
+
+    async function renderBookmarkList() {
+      workList.innerHTML = renderSkeletons(6);
+      if (paginationWrapper) paginationWrapper.style.display = "none";
+
+      try {
+        await loadBookmarks(false);
+
+        resultCount.textContent = `(${Number(bookmarkTotal || bookmarkItems.length || 0).toLocaleString()}건)`;
+
+        if (!bookmarkItems || bookmarkItems.length === 0) {
+          workList.innerHTML = `
+            <div class="empty-state" style="grid-column: 1 / -1;">
+              <div class="empty-state-icon"><i class="bi bi-bookmark"></i></div>
+              <h2 class="empty-state-title">저장한 공고가 없습니다</h2>
+              <p class="empty-state-description">관심 있는 공고를 저장(북마크)해 두면 여기에 모아서 볼 수 있습니다.</p>
+              <button class="btn-search" type="button" id="goToAllFromBookmark">
+                <i class="bi bi-grid"></i> 전체 공고 보기
+              </button>
+            </div>
+          `;
+          const goBtn = document.getElementById("goToAllFromBookmark");
+          if (goBtn) {
+            goBtn.addEventListener("click", () => {
+              setTab("all");
+              currentPage = 1;
+              searchWorkList();
+            });
+          }
+          return;
+        }
+
+        // 왜: DB에 공고 JSON 스냅샷(item_json)이 있으면, 그걸로 “전체 목록”과 동일한 카드 UI를 그대로 렌더링할 수 있습니다.
+        currentItemMap.clear();
+        const cards = bookmarkItems.map((row) => {
+          let item = null;
+          if (row.item_json) {
+            try {
+              item = JSON.parse(row.item_json);
+            } catch (e) {
+              item = null;
+            }
+          }
+
+          if (!item || typeof item !== "object") {
+            item = {
+              wantedAuthNo: row.wanted_auth_no,
+              company: row.company,
+              title: row.title,
+              region: row.region,
+              closeDt: row.close_dt,
+              wantedInfoUrl: row.wanted_info_url,
+              infoSvc: row.provider
+            };
+          }
+
+          // 왜: 키/제공처는 DB 값이 기준이므로 항상 보정합니다.
+          item.infoSvc = (row.provider || item.infoSvc || "WORK24");
+          item.wantedAuthNo = (row.wanted_auth_no || item.wantedAuthNo || "");
+          if (!item.title) item.title = row.title || "";
+          if (!item.company) item.company = row.company || "";
+          if (!item.wantedInfoUrl) item.wantedInfoUrl = row.wanted_info_url || "";
+          if (!item.region) item.region = row.region || "";
+          if (!item.closeDt) item.closeDt = row.close_dt || "";
+
+          const key = makeBookmarkKey(item.infoSvc, item.wantedAuthNo);
+          if (key) currentItemMap.set(key, item);
+          return buildWorkCard(item);
+        });
+        workList.innerHTML = cards.join("");
+      } catch (err) {
+        // 왜: 로그인 만료/권한/서버 오류 등은 사용자가 바로 이해할 수 있게 안내합니다.
+        resultCount.textContent = "(0건)";
+        workList.innerHTML = renderErrorState(`북마크 조회 실패: ${err.message}`);
+      }
+    }
+
+    async function addBookmarkByItem(item) {
+      const provider = resolveProviderFromItem(item);
+      const wantedAuthNo = resolveWantedAuthNo(item);
+      const key = makeBookmarkKey(provider, wantedAuthNo);
+      if (!key) throw new Error("공고 키가 없어 저장할 수 없습니다.");
+
+      const region = (!item.region || item.region === "undefined") ? (item.basicAddr || "") : item.region;
+      const wantedInfoUrl = item.wantedInfoUrl || item.wantedMobileInfoUrl || "";
+      const itemJson = JSON.stringify({
+        // 왜: 북마크 탭에서도 “전체 목록”과 동일한 카드 UI를 그리려면, 배지/급여/경력 같은 필드가 필요합니다.
+        wantedAuthNo: wantedAuthNo,
+        company: item.company || "",
+        busino: item.busino || "",
+        indTpNm: item.indTpNm || "",
+        title: item.title || "",
+        salTpNm: item.salTpNm || "",
+        sal: item.sal || "",
+        minSal: item.minSal || "",
+        maxSal: item.maxSal || "",
+        region: item.region || "",
+        holidayTpNm: item.holidayTpNm || "",
+        minEdubg: item.minEdubg || "",
+        career: item.career || "",
+        regDt: item.regDt || "",
+        closeDt: item.closeDt || "",
+        infoSvc: provider,
+        wantedInfoUrl: item.wantedInfoUrl || "",
+        wantedMobileInfoUrl: item.wantedMobileInfoUrl || "",
+        smodifyDtm: item.smodifyDtm || "",
+        zipCd: item.zipCd || "",
+        strtnmCd: item.strtnmCd || "",
+        basicAddr: item.basicAddr || "",
+        detailAddr: item.detailAddr || "",
+        empTpCd: item.empTpCd || "",
+        jobsCd: item.jobsCd || ""
+      });
+
+      const body = new URLSearchParams({
+        mode: "add",
+        provider,
+        wanted_auth_no: wantedAuthNo,
+        wanted_info_url: wantedInfoUrl,
+        title: item.title || "",
+        company: item.company || "",
+        region: region || "",
+        close_dt: item.closeDt || "",
+        item_json: itemJson
+      });
+
+      await fetchMalgnApi("/api/job_bookmark.jsp", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" },
+        body
+      });
+
+      // 성공 반영
+      bookmarkedKeys.add(key);
+      bookmarkTotal = Math.max(0, (Number(bookmarkTotal) || 0) + 1);
+      updateBookmarkCount();
+    }
+
+    async function deleteBookmarkByItem(item) {
+      const provider = resolveProviderFromItem(item);
+      const wantedAuthNo = resolveWantedAuthNo(item);
+      const key = makeBookmarkKey(provider, wantedAuthNo);
+      if (!key) return;
+
+      const body = new URLSearchParams({
+        mode: "del",
+        provider,
+        wanted_auth_no: wantedAuthNo
+      });
+
+      await fetchMalgnApi("/api/job_bookmark.jsp", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" },
+        body
+      });
+
+      bookmarkedKeys.delete(key);
+      bookmarkTotal = Math.max(0, (Number(bookmarkTotal) || 0) - 1);
+      updateBookmarkCount();
+    }
+
+    function syncBookmarkButtonUI(btn, isActive) {
+      if (!btn) return;
+      const icon = btn.querySelector("i");
+      btn.classList.toggle("active", !!isActive);
+      btn.setAttribute("aria-label", isActive ? "저장 해제" : "저장하기");
+      btn.setAttribute("title", isActive ? "저장 해제" : "저장하기");
+      if (icon) {
+        icon.classList.toggle("bi-bookmark-fill", !!isActive);
+        icon.classList.toggle("bi-bookmark", !isActive);
+      }
+    }
+
+    // ==========================================
+    // 이벤트 리스너
+    // ==========================================
+    if (deptSelect) {
+      deptSelect.addEventListener("change", () => {
+        const nextDept = deptSelect.value || "";
+        const params = new URLSearchParams(window.location.search);
+        if (nextDept) {
+          params.set("dept", nextDept);
+        } else {
+          params.delete("dept");
+        }
+        // 왜: 학과 테스트는 새로고침으로 전체 초기화가 가장 안전합니다.
+        const query = params.toString();
+        window.location.search = query ? `?${query}` : "";
+      });
+    }
+    jobSearchBtn.addEventListener("click", () => {
+      currentPage = 1;
+      searchWorkList();
+    });
+
+    jobResetBtn.addEventListener("click", resetFilters);
+
+    jobLargeSelect.addEventListener("change", () => {
+      loadOccupationDepth2().catch(err => {
+        console.error("직무 대분류 로딩 실패:", err);
+      });
+      updateActiveFilters();
+    });
+
+    jobMiddleSelect.addEventListener("change", () => {
+      loadOccupationDepth3().catch(err => {
+        console.error("직무 중분류 로딩 실패:", err);
+      });
+      updateActiveFilters();
+    });
+
+    jobSmallSelect.addEventListener("change", updateActiveFilters);
+    areaSelect.addEventListener("change", updateActiveFilters);
+    if (providerSelect) {
+      providerSelect.addEventListener("change", () => {
+        setSalaryEducationControlsEnabled(isSalaryEducationSupported());
+        // 왜: 제공처별 코드(지역/직종) 체계가 달라서, 제공처를 바꾸면 셀렉트 옵션도 같이 갱신해야 합니다.
+        Promise.all([loadOccupationDepth1(), loadRegionCodes()])
+          .then(updateActiveFilters)
+          .catch(() => updateActiveFilters());
+      });
+    }
+    if (salTypeSelect) salTypeSelect.addEventListener("change", updateActiveFilters);
+    if (minPayInput) minPayInput.addEventListener("input", updateActiveFilters);
+    if (maxPayInput) maxPayInput.addEventListener("input", updateActiveFilters);
+    if (educationSelect) educationSelect.addEventListener("change", updateActiveFilters);
+
+    // 북마크 버튼 이벤트 위임 (DB 연동)
+    workList.addEventListener("click", async (e) => {
+      const bookmarkBtn = e.target.closest(".job-bookmark");
+      if (!bookmarkBtn) return;
+
+      e.preventDefault();
+      const card = bookmarkBtn.closest(".job-card");
+      const key = card ? (card.getAttribute("data-job-key") || "") : "";
+      const item = key ? currentItemMap.get(key) : null;
+
+      if (!item) {
+        showToast("공고 정보를 찾지 못했습니다. 새로고침 후 다시 시도해 주세요.", true);
+        return;
+      }
+
+      const isActive = bookmarkBtn.classList.contains("active");
+      bookmarkBtn.disabled = true;
+
+      try {
+        if (isActive) {
+          await deleteBookmarkByItem(item);
+          syncBookmarkButtonUI(bookmarkBtn, false);
+          showToast("북마크를 해제했습니다.");
+        } else {
+          await addBookmarkByItem(item);
+          syncBookmarkButtonUI(bookmarkBtn, true);
+          showToast("북마크에 저장했습니다.");
+        }
+
+        // 왜: 북마크 탭에서는 바로 반영되어야 사용자가 “됐다”를 확실히 알 수 있습니다.
+        if (currentView === "bookmark") {
+          await loadBookmarks(true);
+          await renderBookmarkList();
+        }
+      } catch (err) {
+        showToast(err.message || "북마크 처리 중 오류가 발생했습니다.", true);
+      } finally {
+        bookmarkBtn.disabled = false;
+      }
+    });
+
+    // 추천 보내기/카드 클릭 이벤트
+    workList.addEventListener("click", async (e) => {
+      // 검색어 통계 키워드 클릭: 해당 키워드로 바로 검색(전체 탭으로 이동)
+      const keywordBtn = e.target.closest(".search-stat-keyword");
+      if (keywordBtn) {
+        e.preventDefault();
+        const keyword = keywordBtn.getAttribute("data-keyword") || "";
+        if (!keyword) return;
+        if (nlQueryInput) nlQueryInput.value = keyword;
+        currentPage = 1;
+        setTab("all");
+        searchWorkList();
+        return;
+      }
+
+      const recommendBtn = e.target.closest(".btn-recommend");
+      if (recommendBtn) {
+        e.preventDefault();
+        if (!isTutorMode) {
+          showToast("교수 계정에서만 추천을 보낼 수 있습니다.", true);
+          return;
+        }
+        const card = recommendBtn.closest(".job-card");
+        const key = card ? (card.getAttribute("data-job-key") || "") : "";
+        const item = key ? currentItemMap.get(key) : null;
+        if (!item) {
+          showToast("공고 정보를 찾지 못했습니다. 새로고침 후 다시 시도해 주세요.", true);
+          return;
+        }
+        openRecommendModal(item);
+        return;
+      }
+
+      const card = e.target.closest(".job-card");
+      if (!card) return;
+      if (e.target.closest(".job-bookmark") || e.target.closest(".btn-apply") || e.target.closest(".btn-detail") || e.target.closest(".job-title-link")) return;
+      const detailUrl = card.getAttribute("data-detail-url") || "";
+      if (detailUrl) {
+        window.open(detailUrl, "_blank", "noopener");
+      }
+    });
+
+    // 탭 전환
+    if (jobTabAllBtn) {
+      jobTabAllBtn.addEventListener("click", () => {
+        setTab("all");
+        currentPage = 1;
+        searchWorkList();
+      });
+    }
+    if (jobTabBookmarkBtn) {
+      jobTabBookmarkBtn.addEventListener("click", async () => {
+        setTab("bookmark");
+        await renderBookmarkList();
+      });
+    }
+    if (jobTabRecommendBtn) {
+      jobTabRecommendBtn.addEventListener("click", async () => {
+        setTab("recommend");
+        await renderRecommendList();
+      });
+    }
+    if (jobTabSearchStatBtn) {
+      jobTabSearchStatBtn.addEventListener("click", async () => {
+        setTab("stat");
+        await renderSearchStatList();
+      });
+    }
+    if (jobTabSentBtn) {
+      jobTabSentBtn.addEventListener("click", async () => {
+        setTab("sent");
+        await renderSentList();
+      });
+    }
+
+    if (recommendCloseBtn) recommendCloseBtn.addEventListener("click", closeRecommendModal);
+    if (recommendModal) {
+      recommendModal.addEventListener("click", (e) => {
+        if (e.target === recommendModal) closeRecommendModal();
+      });
+    }
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && recommendModal && recommendModal.classList.contains("active")) {
+        closeRecommendModal();
+      }
+    });
+
+    if (recommendCourseSelect) {
+      recommendCourseSelect.addEventListener("change", async () => {
+        const courseId = recommendCourseSelect.value || "";
+        if (recommendSelectAll) recommendSelectAll.checked = false;
+        if (!courseId) {
+          if (recommendStudentsEl) {
+            recommendStudentsEl.innerHTML = `<div class="text-muted" style="padding: 8px;">과목을 먼저 선택해 주세요.</div>`;
+          }
+          return;
+        }
+        if (recommendStudentsEl) recommendStudentsEl.innerHTML = renderSkeletons(3);
+        try {
+          const students = await loadCourseStudents(courseId);
+          renderRecommendStudents(students);
+        } catch (err) {
+          if (recommendStudentsEl) {
+            recommendStudentsEl.innerHTML = `<div class="text-muted" style="padding: 8px;">학생 목록을 불러오지 못했습니다.</div>`;
+          }
+        }
+      });
+    }
+
+    if (recommendSelectAll) {
+      recommendSelectAll.addEventListener("change", () => {
+        const checked = recommendSelectAll.checked;
+        if (!recommendStudentsEl) return;
+        const checkboxes = recommendStudentsEl.querySelectorAll(".recommend-student-checkbox");
+        checkboxes.forEach((el) => { el.checked = checked; });
+      });
+    }
+
+    if (recommendSendBtn) {
+      recommendSendBtn.addEventListener("click", async () => {
+        if (!currentRecommendItem) {
+          showToast("공고 정보를 찾지 못했습니다.", true);
+          return;
+        }
+        const courseId = recommendCourseSelect ? recommendCourseSelect.value : "";
+        if (!courseId) {
+          if (recommendMsgEl) recommendMsgEl.textContent = "담당과목을 선택해 주세요.";
+          return;
+        }
+        const studentIds = collectSelectedStudentIds();
+        if (studentIds.length === 0) {
+          if (recommendMsgEl) recommendMsgEl.textContent = "추천할 학생을 선택해 주세요.";
+          return;
+        }
+
+        const item = currentRecommendItem;
+        const provider = resolveProviderFromItem(item);
+        const wantedAuthNo = resolveWantedAuthNo(item);
+        const region = (!item.region || item.region === "undefined") ? (item.basicAddr || "") : item.region;
+        const wantedInfoUrl = item.wantedInfoUrl || item.wantedMobileInfoUrl || "";
+        const itemJson = JSON.stringify({
+          // 왜: 추천 탭에서도 “전체 목록”과 동일한 카드 UI를 그대로 그리기 위해 스냅샷을 저장합니다.
+          wantedAuthNo: wantedAuthNo,
+          company: item.company || "",
+          busino: item.busino || "",
+          indTpNm: item.indTpNm || "",
+          title: item.title || "",
+          salTpNm: item.salTpNm || "",
+          sal: item.sal || "",
+          minSal: item.minSal || "",
+          maxSal: item.maxSal || "",
+          region: item.region || "",
+          holidayTpNm: item.holidayTpNm || "",
+          minEdubg: item.minEdubg || "",
+          career: item.career || "",
+          regDt: item.regDt || "",
+          closeDt: item.closeDt || "",
+          infoSvc: provider,
+          wantedInfoUrl: item.wantedInfoUrl || "",
+          wantedMobileInfoUrl: item.wantedMobileInfoUrl || "",
+          smodifyDtm: item.smodifyDtm || "",
+          zipCd: item.zipCd || "",
+          strtnmCd: item.strtnmCd || "",
+          basicAddr: item.basicAddr || "",
+          detailAddr: item.detailAddr || "",
+          empTpCd: item.empTpCd || "",
+          jobsCd: item.jobsCd || ""
+        });
+
+        const body = new URLSearchParams({
+          mode: "add",
+          course_id: courseId,
+          student_user_ids: studentIds.join(","),
+          provider,
+          wanted_auth_no: wantedAuthNo,
+          wanted_info_url: wantedInfoUrl,
+          title: item.title || "",
+          company: item.company || "",
+          region: region || "",
+          close_dt: item.closeDt || "",
+          item_json: itemJson
+        });
+
+        recommendSendBtn.disabled = true;
+        try {
+          await fetchMalgnApi("/api/job_recommend.jsp", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" },
+            body
+          });
+          showToast("추천을 보냈습니다.");
+          if (recommendMsgEl) recommendMsgEl.textContent = "추천이 저장되었습니다.";
+          closeRecommendModal();
+        } catch (err) {
+          if (recommendMsgEl) recommendMsgEl.textContent = err.message || "추천 저장 중 오류가 발생했습니다.";
+        } finally {
+          recommendSendBtn.disabled = false;
+        }
+      });
+    }
+
+    // ==========================================
+    // 초기 로딩
+    // ==========================================
+    // 왜: URL에 provider가 있으면 코드 로딩 전에 먼저 반영해야 “잡코리아 선택인데 Work24 코드가 로딩되는” 혼선을 막습니다.
+    if (defaultProvider) {
+      selectByValue(providerSelect, defaultProvider);
+    }
+
+    Promise.all([loadOccupationDepth1(), loadRegionCodes(), detectTutorMode(), detectSearchStatPermission(), loadDeptOccupationMap().then((map) => {
+      deptOccupationMap = map;
+      populateDeptSelect(map);
+    })])
+      .then(async () => {
+        applyTutorUiVisibility();
+        setSalaryEducationControlsEnabled(isSalaryEducationSupported());
+        // 왜: 아이콘 활성화(저장 상태)를 바로 보이게 하려면, 검색 전에 북마크 목록을 한 번 로딩해야 합니다.
+        try { await loadBookmarks(true); } catch (e) { /* 로그인/권한 문제는 무시(북마크 탭에서 안내) */ }
+        try { await loadRecommendations(true); } catch (e) { /* 로그인/권한 문제는 무시(추천 탭에서 안내) */ }
+        if (isTutorMode) {
+          try { await loadSentRecommendations(true); } catch (e) { /* 교수 보낸내역은 탭에서 안내 */ }
+        }
+        await applyDefaultFilters();
+        currentPage = 1;
+        updateActiveFilters();
+        searchWorkList();
+      })
+      .catch(err => {
+        resultCount.textContent = "(0건)";
+        workList.innerHTML = renderErrorState(`초기 로딩 실패: ${err.message}`);
+      });
+
+    // 부모 페이지에 iframe 높이를 전달 (스크롤 통합을 위해)
+    (function() {
+      function sendHeight() {
+        var height = document.body.scrollHeight;
+        if (window.parent && window.parent !== window) {
+          window.parent.postMessage({ type: 'iframeHeight', height: height }, '*');
+        }
+      }
+      // 초기 로드 시 전달
+      sendHeight();
+      // 콘텐츠 변경 시 전달 (MutationObserver 사용)
+      var observer = new MutationObserver(function() {
+        sendHeight();
+      });
+      observer.observe(document.body, { childList: true, subtree: true, attributes: true });
+      // 윈도우 리사이즈 시에도 전달
+      window.addEventListener('resize', sendHeight);
+    })();
+  </script>
+</body>
+</html>
