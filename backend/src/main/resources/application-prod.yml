@@ -1,0 +1,106 @@
+spring:
+  application:
+    name: growai-map-backend
+
+  # H2 Database Configuration (Cloud Run - No external DB)
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:growai_map;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH
+    username: sa
+    password:
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 30000
+
+  # JPA Configuration
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 100
+    defer-datasource-initialization: true
+
+  # Disable Redis for Cloud Run
+  data:
+    redis:
+      repositories:
+        enabled: false
+
+  # SQL initialization
+  sql:
+    init:
+      mode: always
+
+  # File Upload Configuration
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 50MB
+      max-request-size: 100MB
+
+# MyBatis Configuration
+mybatis:
+  type-aliases-package: com.newcle.growaimap.domain
+  mapper-locations: classpath:mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    default-fetch-size: 100
+    default-statement-timeout: 30
+
+# Server Configuration - Use PORT env variable for Cloud Run
+server:
+  port: ${PORT:8080}
+  servlet:
+    context-path: /
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,application/javascript,application/json
+
+# JWT Configuration
+jwt:
+  secret: ${JWT_SECRET:GrowAIMapSecretKeyForJWTTokenGeneration2024Manufacturing}
+  expiration: 86400000
+
+# File Upload Configuration
+file:
+  upload:
+    path: /tmp/uploads
+    max-size: 52428800
+    base-url: /api/files
+
+# Logging Configuration
+logging:
+  level:
+    root: INFO
+    com.newcle.growaimap: INFO
+    org.springframework.security: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+# Springdoc OpenAPI Configuration
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+
+# Actuator for health checks
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
