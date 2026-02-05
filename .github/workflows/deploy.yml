@@ -1,0 +1,44 @@
+name: Deploy to Cloud Run
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+      
+      - uses: google-github-actions/setup-gcloud@v2
+      
+      - name: Build and Deploy Backend
+        run: |
+          gcloud auth configure-docker asia-northeast3-docker.pkg.dev --quiet
+          docker build -f backend/Dockerfile -t asia-northeast3-docker.pkg.dev/gen-lang-client-0472793450/growai/growai-backend:${{ github.sha }} ./backend
+          docker push asia-northeast3-docker.pkg.dev/gen-lang-client-0472793450/growai/growai-backend:${{ github.sha }}
+          gcloud run deploy growai-backend --image asia-northeast3-docker.pkg.dev/gen-lang-client-0472793450/growai/growai-backend:${{ github.sha }} --region asia-northeast3 --platform managed --allow-unauthenticated --memory 2Gi --cpu 2
+
+  deploy-frontend:
+    runs-on: ubuntu-latest
+    needs: deploy-backend
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+      
+      - uses: google-github-actions/setup-gcloud@v2
+      
+      - name: Build and Deploy Frontend
+        run: |
+          gcloud auth configure-docker asia-northeast3-docker.pkg.dev --quiet
+          docker build -f frontend/Dockerfile -t asia-northeast3-docker.pkg.dev/gen-lang-client-0472793450/growai/growai-frontend:${{ github.sha }} ./frontend
+          docker push asia-northeast3-docker.pkg.dev/gen-lang-client-0472793450/growai/growai-frontend:${{ github.sha }}
+          gcloud run deploy growai-frontend --image asia-northeast3-docker.pkg.dev/gen-lang-client-0472793450/growai/growai-frontend:${{ github.sha }} --region asia-northeast3 --platform managed --allow-unauthenticated --memory 512Mi --cpu 1

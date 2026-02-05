@@ -1,5 +1,5 @@
 # Build Stage
-FROM gradle:8.5-jdk17-alpine AS builder
+FROM eclipse-temurin:17-jdk-alpine AS builder
 
 WORKDIR /app
 
@@ -8,7 +8,7 @@ COPY build.gradle settings.gradle gradlew ./
 COPY gradle ./gradle
 
 # Download dependencies
-RUN ./gradlew dependencies --no-daemon || return 0
+RUN chmod +x gradlew && ./gradlew dependencies --no-daemon || true
 
 # Copy source code
 COPY src ./src
@@ -17,7 +17,7 @@ COPY src ./src
 RUN ./gradlew clean build -x test --no-daemon
 
 # Runtime Stage
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jre-alpine
 
 WORKDIR /app
 
@@ -25,7 +25,7 @@ WORKDIR /app
 COPY --from=builder /app/build/libs/*.jar app.jar
 
 # Create non-root user
-RUN useradd -m -u 1001 appuser && chown -R appuser:appuser /app
+RUN adduser -D -u 1001 appuser && chown -R appuser:appuser /app
 USER appuser
 
 # Expose port

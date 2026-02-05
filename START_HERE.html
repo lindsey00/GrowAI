@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MalgnLMS 시작 가이드</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        .header h1 { font-size: 2.5em; margin-bottom: 10px; }
+        .header p { font-size: 1.2em; opacity: 0.9; }
+        .content { padding: 40px; }
+        .step {
+            background: #f8f9fa;
+            border-left: 5px solid #667eea;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+        }
+        .step h2 {
+            color: #667eea;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+        .step p { margin: 10px 0; line-height: 1.6; color: #333; }
+        .button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px 10px 10px 0;
+            transition: transform 0.2s;
+        }
+        .button:hover { transform: translateY(-2px); }
+        .button.secondary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        .url-box {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+        }
+        .url-box a {
+            color: #1976d2;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .url-box a:hover { text-decoration: underline; }
+        .note {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .success {
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .footer {
+            background: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            color: #666;
+        }
+        ul { margin: 15px 0 15px 30px; }
+        li { margin: 8px 0; line-height: 1.6; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 MalgnLMS 시작 가이드</h1>
+            <p>개발/테스트 환경 - 인증 없이 API 직접 사용</p>
+        </div>
+
+        <div class="content">
+            <div class="success">
+                <strong>✅ 준비 완료!</strong><br>
+                모든 빌드와 설정이 완료되었습니다. 이제 Docker만 설치하면 바로 시작할 수 있습니다!
+            </div>
+
+            <div class="step">
+                <h2><span class="step-number">1</span> Docker Desktop 설치</h2>
+                <p>다음 파일을 더블클릭하여 Docker Desktop을 설치하세요:</p>
+                <button class="button" onclick="runBatch('STEP1_Install_Docker.bat')">
+                    📥 STEP1_Install_Docker.bat 실행
+                </button>
+                <p style="margin-top: 15px;">또는 수동으로 설치:</p>
+                <ul>
+                    <li>관리자 권한으로 PowerShell 실행</li>
+                    <li><code>cd D:\Workspace\GrowAI_LMS\MalgnLMS-clean</code></li>
+                    <li><code>.\install-docker.ps1</code></li>
+                    <li>자동 다운로드 옵션 선택 (Y)</li>
+                </ul>
+            </div>
+
+            <div class="step">
+                <h2><span class="step-number">2</span> Docker Desktop 실행</h2>
+                <p>설치 완료 후:</p>
+                <ul>
+                    <li>시작 메뉴에서 "Docker Desktop" 검색 및 실행</li>
+                    <li>시스템 트레이에서 Docker 아이콘이 <strong style="color: green;">초록색</strong>이 될 때까지 대기 (1-2분)</li>
+                </ul>
+            </div>
+
+            <div class="step">
+                <h2><span class="step-number">3</span> MalgnLMS 서비스 시작</h2>
+                <p>Docker Desktop이 실행 중일 때 다음 파일을 더블클릭:</p>
+                <button class="button secondary" onclick="runBatch('STEP2_Start_Services.bat')">
+                    ▶️ STEP2_Start_Services.bat 실행
+                </button>
+                <p style="margin-top: 15px;">또는 PowerShell에서:</p>
+                <ul>
+                    <li><code>cd D:\Workspace\GrowAI_LMS\MalgnLMS-clean</code></li>
+                    <li><code>.\verify-and-start.ps1</code></li>
+                </ul>
+                <div class="note">
+                    <strong>⏱️ 시작 시간:</strong> 최초 실행 시 약 3-5분 소요<br>
+                    (MySQL, Qdrant, 백엔드, 프론트엔드 순차 시작)
+                </div>
+            </div>
+
+            <div class="step">
+                <h2><span class="step-number">4</span> 서비스 접속</h2>
+                <p>서비스가 시작되면 다음 URL로 접속할 수 있습니다:</p>
+
+                <div class="url-box">
+                    <strong>🌐 프론트엔드:</strong><br>
+                    <a href="http://localhost:4173" target="_blank">http://localhost:4173</a>
+                </div>
+
+                <div class="url-box">
+                    <strong>🔧 백엔드 API:</strong><br>
+                    <a href="http://localhost:8081" target="_blank">http://localhost:8081</a>
+                </div>
+
+                <div class="url-box">
+                    <strong>💚 헬스 체크:</strong><br>
+                    <a href="http://localhost:8081/actuator/health" target="_blank">http://localhost:8081/actuator/health</a>
+                </div>
+
+                <div class="url-box">
+                    <strong>🔍 Qdrant Dashboard:</strong><br>
+                    <a href="http://localhost:6333/dashboard" target="_blank">http://localhost:6333/dashboard</a>
+                </div>
+            </div>
+
+            <div class="step">
+                <h2><span class="step-number">5</span> 서비스 종료</h2>
+                <p>작업이 끝나면 PowerShell에서:</p>
+                <ul>
+                    <li><code>cd D:\Workspace\GrowAI_LMS\MalgnLMS-clean</code></li>
+                    <li><code>.\stop-local.ps1</code></li>
+                </ul>
+            </div>
+
+            <div class="note">
+                <strong>📝 참고:</strong><br>
+                <ul>
+                    <li><strong>인증 시스템:</strong> 현재 빌드는 인증 없이 API를 직접 사용합니다</li>
+                    <li><strong>데이터:</strong> MySQL 및 Qdrant 데이터는 Docker 볼륨에 저장되어 재시작 시에도 유지됩니다</li>
+                    <li><strong>로그:</strong> D:\Workspace\GrowAI_LMS\logs\ 폴더에서 확인 가능</li>
+                </ul>
+            </div>
+
+            <div class="success">
+                <strong>🎯 시작 체크리스트</strong>
+                <ul style="list-style: none; margin-left: 0;">
+                    <li>☐ STEP1_Install_Docker.bat 실행 (또는 수동 설치)</li>
+                    <li>☐ Docker Desktop 실행 및 초록색 아이콘 확인</li>
+                    <li>☐ STEP2_Start_Services.bat 실행 (또는 verify-and-start.ps1)</li>
+                    <li>☐ http://localhost:4173 접속하여 프론트엔드 확인</li>
+                    <li>☐ http://localhost:8081/actuator/health 접속하여 백엔드 확인</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>📚 추가 문서</strong></p>
+            <p>
+                <a href="file:///D:/Workspace/GrowAI_LMS/MalgnLMS-clean/README_START_HERE.md">README_START_HERE.md</a> |
+                <a href="file:///D:/Workspace/GrowAI_LMS/MalgnLMS-clean/LOCAL_DEPLOYMENT_GUIDE.md">LOCAL_DEPLOYMENT_GUIDE.md</a> |
+                <a href="file:///D:/Workspace/GrowAI_LMS/logs/DEPLOYMENT_TEST_REPORT_20260201.md">배포 테스트 보고서</a>
+            </p>
+            <p style="margin-top: 20px; color: #999;">
+                MalgnLMS Local Development Environment v1.0<br>
+                최종 업데이트: 2026-02-01
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function runBatch(filename) {
+            alert('파일 탐색기에서 다음 파일을 찾아 더블클릭하세요:\n\nD:\\Workspace\\GrowAI_LMS\\MalgnLMS-clean\\' + filename + '\n\n또는 이 창을 닫고 해당 폴더로 이동하세요.');
+        }
+    </script>
+</body>
+</html>
