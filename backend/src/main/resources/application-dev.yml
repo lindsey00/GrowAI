@@ -81,6 +81,21 @@ springdoc:
     operations-sorter: method
     tags-sorter: alpha
 
+# File Upload Configuration
+file:
+  upload:
+    path: ./uploads
+    max-size: 52428800  # 50MB
+    base-url: /api/files
+
+# Spring Multipart Configuration
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 50MB
+      max-request-size: 100MB
+
 # Development Mode
 management:
   endpoints:

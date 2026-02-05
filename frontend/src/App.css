@@ -2,6 +2,45 @@
   text-align: center;
 }
 
+/* Navigation */
+.app-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  gap: 8px;
+  padding: 16px 24px;
+  background: rgba(10, 25, 41, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(51, 153, 255, 0.2);
+}
+
+.nav-btn {
+  padding: 10px 20px;
+  background: transparent;
+  border: 1px solid rgba(51, 153, 255, 0.3);
+  border-radius: 8px;
+  color: #B0BEC5;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+  background: rgba(51, 153, 255, 0.1);
+  border-color: #3399FF;
+  color: #FFFFFF;
+}
+
+.nav-btn.active {
+  background: linear-gradient(135deg, #3399FF 0%, #00D4FF 100%);
+  border-color: transparent;
+  color: #FFFFFF;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

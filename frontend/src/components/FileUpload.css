@@ -1,0 +1,340 @@
+/* ========================================
+   FileUpload Component Styles
+   GrowAI-MAP 스타일 가이드 적용
+   ======================================== */
+
+.file-upload-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Dropzone */
+.file-upload-dropzone {
+  position: relative;
+  border: 2px dashed rgba(51, 153, 255, 0.4);
+  border-radius: 12px;
+  padding: 40px 24px;
+  background: rgba(19, 47, 76, 0.5);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.file-upload-dropzone:hover {
+  border-color: var(--accent-blue, #3399FF);
+  background: rgba(19, 47, 76, 0.7);
+}
+
+.file-upload-dropzone.dragging {
+  border-color: var(--accent-gold, #FFB800);
+  background: rgba(255, 184, 0, 0.1);
+  transform: scale(1.02);
+}
+
+.file-input-hidden {
+  display: none;
+}
+
+.dropzone-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.dropzone-icon {
+  color: var(--accent-blue, #3399FF);
+  opacity: 0.8;
+}
+
+.file-upload-dropzone.dragging .dropzone-icon {
+  color: var(--accent-gold, #FFB800);
+  animation: bounce 0.5s ease infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.dropzone-text {
+  font-size: 16px;
+  color: var(--text-secondary, #B0BEC5);
+  margin: 0;
+}
+
+.browse-button {
+  padding: 12px 28px;
+  background: linear-gradient(135deg, #3399FF 0%, #00D4FF 100%);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.browse-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(51, 153, 255, 0.4);
+}
+
+.browse-button:active {
+  transform: translateY(0);
+}
+
+.dropzone-hint {
+  font-size: 13px;
+  color: var(--text-secondary, #B0BEC5);
+  opacity: 0.7;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Error Message */
+.file-upload-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 12px 16px;
+  background: rgba(255, 107, 107, 0.15);
+  border: 1px solid rgba(255, 107, 107, 0.3);
+  border-radius: 8px;
+  color: #FF6B6B;
+  font-size: 14px;
+}
+
+.error-icon {
+  font-size: 16px;
+}
+
+/* File List */
+.file-list-container {
+  margin-top: 20px;
+  background: rgba(19, 47, 76, 0.5);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.file-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(51, 153, 255, 0.2);
+}
+
+.file-count {
+  font-size: 14px;
+  color: var(--text-secondary, #B0BEC5);
+  font-weight: 500;
+}
+
+.clear-all-button {
+  background: transparent;
+  border: none;
+  color: #FF6B6B;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.clear-all-button:hover {
+  background: rgba(255, 107, 107, 0.1);
+}
+
+.file-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.file-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.file-list::-webkit-scrollbar-track {
+  background: rgba(10, 25, 41, 0.5);
+  border-radius: 3px;
+}
+
+.file-list::-webkit-scrollbar-thumb {
+  background: rgba(51, 153, 255, 0.4);
+  border-radius: 3px;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(10, 25, 41, 0.6);
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.file-item:hover {
+  background: rgba(10, 25, 41, 0.8);
+}
+
+.file-item.completed {
+  background: rgba(0, 200, 83, 0.1);
+  border: 1px solid rgba(0, 200, 83, 0.3);
+}
+
+.file-item.error {
+  background: rgba(255, 107, 107, 0.1);
+  border: 1px solid rgba(255, 107, 107, 0.3);
+}
+
+.file-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.file-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.file-name {
+  font-size: 14px;
+  color: var(--text-primary, #FFFFFF);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-size {
+  font-size: 12px;
+  color: var(--text-secondary, #B0BEC5);
+  opacity: 0.7;
+}
+
+/* Progress Bar */
+.progress-bar {
+  width: 60px;
+  height: 4px;
+  background: rgba(51, 153, 255, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3399FF, #00D4FF);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+/* Status Icons */
+.status-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.status-icon.completed {
+  color: #00C853;
+}
+
+.status-icon.error {
+  color: #FF6B6B;
+}
+
+/* Remove Button */
+.remove-button {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid rgba(255, 107, 107, 0.3);
+  border-radius: 50%;
+  color: #FF6B6B;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.remove-button:hover {
+  background: rgba(255, 107, 107, 0.2);
+  border-color: #FF6B6B;
+}
+
+/* Upload Button */
+.upload-button {
+  width: 100%;
+  margin-top: 16px;
+  padding: 14px 24px;
+  background: linear-gradient(135deg, #FFB800 0%, #FF6B6B 100%);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.upload-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(255, 184, 0, 0.4);
+}
+
+.upload-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .file-upload-dropzone {
+    padding: 30px 16px;
+  }
+
+  .dropzone-icon svg {
+    width: 40px;
+    height: 40px;
+  }
+
+  .dropzone-text {
+    font-size: 14px;
+  }
+
+  .browse-button {
+    padding: 10px 24px;
+    font-size: 14px;
+  }
+
+  .dropzone-hint {
+    font-size: 12px;
+  }
+
+  .file-item {
+    padding: 10px;
+  }
+
+  .file-icon {
+    font-size: 20px;
+  }
+
+  .file-name {
+    font-size: 13px;
+  }
+}
